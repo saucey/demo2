@@ -28,6 +28,8 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 //Button
 import Button from '@material-ui/core/Button'
 
+import AudienceInputs from '../../components/AudienceInputs'
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -117,75 +119,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const AudienceInputs = (props) => {
-
-    // The number of references is undetermined
-    // After fetching data, we can determine array's length
-    const inputRef = useRef([]);
-    const classes = useStyles();
-    // Data is empty before fetching
-    const [data, setData] = useState([]);
-    const [aud, setAud] = useState({
-        circulation: '',
-        viewer: '',
-        catchment: '',
-        listeners: '',
-        readership: '',
-        impressions: '',
-        browsers: '',
-        visibilty: '',
-        engagement: '',
-    })
-
-    console.log(props)
-
-    useEffect(() => {
-        // We will fetch data and receive an array
-        // let data = fetchData();
-        // To simplify, let's suppose that the array is:
-        let data = props.data;
-        // We define the size of array after receiving the data
-        inputRef.current = new Array(data.length);
-
-        // We set state
-        setData(data);
-
-    }, []);
-
-    useEffect(() => {
-        // debugger;
-        // If data is filled -> focus
-        if (data.length !== 0) {
-            // Focusing the last <input></input>
-            inputRef.current[data.length - 1].focus();
-
-        }
-
-    }, [data]);
-
-    const onAChange = (e) => {
-        debugger;
-        setAud({
-            ...aud,
-            [e.target.name]: e.target.value
-        });
-        props.onChange(aud)
-    }
-
-    return (
-        <div>
-            {data.map((element, i) => <TextField variant="outlined" margin="normal" label={element} fullWidth className={classes.customfield} value={aud[element]} name={element} onChange={(event) => onAChange(event)} inputRef={props.register({ required: true })} ref={el => inputRef.current[i] = el} placeholder={element} />)}
-        </div>
-    );
-}
-
-
 export default function CreateMedia() {
     const { register, handleSubmit, errors } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
 
     const [value, setValue] = useState('female');
     const [channel, setChannel] = useState('television')
     const [name, setName] = useState('')
+    const [sex, setSex] = useState('')
     const [audience, setAudience] = useState({
         circulation: '',
         viewer: '',
@@ -205,7 +145,7 @@ export default function CreateMedia() {
     const inputEl = useRef([]);
 
     useEffect(() => {
-    }, [])
+    }, [channel, setChannel])
 
     const handleChange = (event) => {
         console.log(event, 'the event')
@@ -294,6 +234,20 @@ export default function CreateMedia() {
                                 </Grid>
                                 <Grid item md={4} sm={6} xs={12}>
                                     <h2 className={classes.formTitle}>Title</h2>
+                                    <TextField
+                                        value={sex}
+                                        className={classes.customfield}
+                                        onChange={(e) => setSex(e.target.value)}
+                                        variant="outlined"
+                                        margin="normal"
+                                        fullWidth
+                                        id="sex"
+                                        label="sex"
+                                        name="sex"
+                                        // autoComplete="name"
+                                        inputRef={register({ required: true })}
+                                        error={errors.sex?.type === 'required'}
+                                    />
                                     <TextField
                                         value={name}
                                         className={classes.customfield}
