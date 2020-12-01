@@ -6,9 +6,6 @@ const initState = {
 
 const Reducer = (state = initState, action) => {
 
-  console.log(state, 'reducer!!!')
-  console.log(action, 'action!!!')
-
   switch (action.type) {
     case 'LOGGED_IN_SESSION':
       return {

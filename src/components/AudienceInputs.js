@@ -73,8 +73,6 @@ const AudienceInputs = (props) => {
         engagement: '',
     })
 
-    console.log(props)
-
     useEffect(() => {
         // We will fetch data and receive an array
         // let data = fetchData();

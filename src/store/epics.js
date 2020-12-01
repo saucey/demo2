@@ -1,7 +1,7 @@
 import { combineEpics } from 'redux-observable';
 import { ofType } from 'redux-observable';
-import { mergeMap, map, catchError, switchMap, filter } from 'rxjs/operators';
-import { from, throwError, of } from 'rxjs';
+import { map, catchError, switchMap } from 'rxjs/operators';
+import { from, of } from 'rxjs';
 import { getLogin, getRegister } from '../api/mediaRegisteredApi'
 
 const login = action$ => action$.pipe(

@@ -138,19 +138,11 @@ export default function CreateMedia() {
         engagement: '',
     })
 
-    const [coverPrice, setCoverPrice] = useState('')
-
     const classes = useStyles();
 
-    const inputEl = useRef([]);
 
     useEffect(() => {
     }, [channel, setChannel])
-
-    const handleChange = (event) => {
-        console.log(event, 'the event')
-        // setChannel(event.target.value);
-    };
 
     const selectImg = () => {
 

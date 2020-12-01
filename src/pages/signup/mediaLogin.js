@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
-import { useHistory } from 'react-router-dom';
 import MediaLoginForm from '../../components/mediaLoginForm'
 
 const useStyles = makeStyles((theme) => ({
@@ -51,28 +49,17 @@ const useStyles = makeStyles((theme) => ({
 export default function MediaLogin() {
 	const { register, handleSubmit, errors } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
 	const classes = useStyles()
-	const history = useHistory();
 	const [mediaState, setMediaState] = useState('planner')
-
-
-	const userLoggedIn = useSelector((state) => state.userLoggedIn);
 
 
 	useEffect(() => {
 	}, [])
-
-	const dispatch = useDispatch()
 
 	const toggleMedia = (type) => {
 		setMediaState(type)
 	}
 
 	const ToggleMediaSwitch = () => {
-
-		// dispatch({
-		// 	type: 'ERROR',
-		// 	error: null
-		// })
 
 		switch (mediaState) {
 			case 'owner':
