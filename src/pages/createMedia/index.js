@@ -160,52 +160,6 @@ export default function CreateMedia() {
         console.log(data, 'the data!!!!!!!!!!!!!!!!!!!!!');
     }
 
-    const ShowAudienceInputs = () => {
-
-        switch (channel) {
-            case 'television':
-                return (
-                    <div>
-                        <AudienceInputs register={register} onChange={handleChange} data={['circulation', 'viewer', 'catchment']} />
-                    </div>
-                )
-            case 'radio':
-                return (
-                    <div>
-                        <AudienceInputs onChange={handleChange} data={['listeners', 'catchment']} />
-                    </div>
-                )
-            case 'print':
-                return (
-                    <div>
-                        <AudienceInputs onChange={handleChange} data={['circulation', 'readership']} />
-                    </div>
-                )
-            case 'digital-online':
-                return (
-                    <div>
-                        <AudienceInputs onChange={handleChange} data={['impressions', 'browsers']} />
-                    </div>
-                )
-            case 'ooh':
-                return (
-                    <div>
-                        <AudienceInputs onChange={handleChange} data={['visibilty']} />
-                    </div>
-                )
-            case 'social':
-                return (
-                    <div>
-                        <AudienceInputs onChange={handleChange} data={['engagement']} />
-                    </div>
-                )
-
-            default:
-            // code block
-        }
-
-    }
-
     return (
         <div className={classes.root}>
             <Grid container spacing={3}>
@@ -226,7 +180,7 @@ export default function CreateMedia() {
                                             <FormControlLabel value="television" control={<Radio />} label="Television" />
                                             <FormControlLabel value="radio" control={<Radio />} label="Radio" />
                                             <FormControlLabel value="print" control={<Radio />} label="Print" />
-                                            <FormControlLabel value="digital-online" control={<Radio />} label="Digital/Onine" />
+                                            <FormControlLabel value="digital" control={<Radio />} label="Digital/Onine" />
                                             <FormControlLabel value="ooh" control={<Radio />} label="OOH" />
                                             <FormControlLabel value="social" control={<Radio />} label="Social" />
                                         </RadioGroup>
@@ -288,7 +242,17 @@ export default function CreateMedia() {
                                 </Grid>
                                 <Grid item md={3} sm={6} xs={12}>
                                     <h2 className={classes.formTitle}>Audience (print)</h2>
-                                    <ShowAudienceInputs />
+
+                                    {/print|television/.test(channel) && <TextField variant="outlined" margin="normal" label={'Circulation'} fullWidth className={classes.customfield} value={audience['circulation']} name="circulation" error={errors.circulation?.type === 'required'} inputRef={register({ required: true })} onChange={(e) => setAudience({ ...audience, [e.target.name]: e.target.value })} placeholder={'Circulation'} />}
+                                    {/television/.test(channel) && <TextField variant="outlined" margin="normal" label={'Viewer'} fullWidth className={classes.customfield} value={audience['viewer']} name="viewer" error={errors.viewer?.type === 'required'} inputRef={register({ required: true })} onChange={(e) => setAudience({ ...audience, [e.target.name]: e.target.value })} placeholder={'Viewer'} />}
+                                    {/radio|television/.test(channel) && <TextField variant="outlined" margin="normal" label={'Catchment'} fullWidth className={classes.customfield} value={audience['catchment']} name="catchment" error={errors.catchment?.type === 'required'} inputRef={register({ required: true })} onChange={(e) => setAudience({ ...audience, [e.target.name]: e.target.value })} placeholder={'Catchment'} />}
+                                    {/radio/.test(channel) && <TextField variant="outlined" margin="normal" label={'Listeners'} fullWidth className={classes.customfield} value={audience['listeners']} name="listeners" error={errors.listeners?.type === 'required'} inputRef={register({ required: true })} onChange={(e) => setAudience({ ...audience, [e.target.name]: e.target.value })} placeholder={'Listeners'} />}
+                                    {/print/.test(channel) && <TextField variant="outlined" margin="normal" label={'Readership'} fullWidth className={classes.customfield} value={audience['readership']} name="readership" error={errors.readership?.type === 'required'} inputRef={register({ required: true })} onChange={(e) => setAudience({ ...audience, [e.target.name]: e.target.value })} placeholder={'Readership'} />}
+                                    {/digital/.test(channel) && <TextField variant="outlined" margin="normal" label={'Impressions'} fullWidth className={classes.customfield} value={audience['impressions']} name="impressions" error={errors.impressions?.type === 'required'} inputRef={register({ required: true })} onChange={(e) => setAudience({ ...audience, [e.target.name]: e.target.value })} placeholder={'Impressions'} />}
+                                    {/digital/.test(channel) && <TextField variant="outlined" margin="normal" label={'Browsers'} fullWidth className={classes.customfield} value={audience['browsers']} name="browsers" error={errors.browsers?.type === 'required'} inputRef={register({ required: true })} onChange={(e) => setAudience({ ...audience, [e.target.name]: e.target.value })} placeholder={'Browsers'} />}
+                                    {/ooh/.test(channel) && <TextField variant="outlined" margin="normal" label={'Visibilty'} fullWidth className={classes.customfield} value={audience['visibilty']} name="visibilty" error={errors.visibilty?.type === 'required'} inputRef={register({ required: true })} onChange={(e) => setAudience({ ...audience, [e.target.name]: e.target.value })} placeholder={'Visibilty'} />}
+                                    {/social/.test(channel) && <TextField variant="outlined" margin="normal" label={'Engagement'} fullWidth className={classes.customfield} value={audience['engagement']} name="engagement" error={errors.engagement?.type === 'required'} inputRef={register({ required: true })} onChange={(e) => setAudience({ ...audience, [e.target.name]: e.target.value })} placeholder={'engagement'} />}
+
                                 </Grid>
                                 <Grid style={{ textAlign: 'center' }} item md={3} sm={6} xs={12}>
                                     <h2 className={classes.formTitle}>Cover / Thumb</h2>
