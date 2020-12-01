@@ -8,9 +8,7 @@ export default () => (
     <Switch>
       <Route path="/media-login" exact component={MediaLogin} />
       <Route path="/create-media" exact component={CreateMedia} />
-      <Route path="/" exact component={() => {
-        alert('here')
-      }} />
+      <Route path="/" exact component={MediaLogin} />
     </Switch>
   </BrowserRouter>
 )

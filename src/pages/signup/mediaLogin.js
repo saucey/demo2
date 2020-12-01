@@ -10,6 +10,7 @@ import MediaLoginForm from '../../components/mediaLoginForm'
 
 const useStyles = makeStyles((theme) => ({
 	tab1: {
+		marginRight: '10px',
 		color: '#e96941',
 		'&.selected': {
 			zIndex: 10
@@ -17,23 +18,31 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 	tab2: {
-		color: '#970eff',
+		marginRight: '10px',
+		color: '#6a5fcd',
 		'&.selected': {
 			zIndex: 10
 		}
 	},
 
+	tab3: {
+		color: '#e502ba',
+		'&.selected': {
+			zIndex: 10
+		}
+	},
+
+
 	tabWrapper: {
-		// display: 'flex',
-		// justifyContent: 'space-evenly',
+		display: 'flex',
+		justifyContent: 'space-between',
 		marginTop: '50px',
 		'& span': {
 			'border-top-right-radius': '25px',
 			'border-top-left-radius': '25px',
 			fontWeight: 'bold',
 			display: 'inline-block',
-			padding: '20px 40px 50px',
-			marginRight: '10px',
+			padding: '20px 30px 50px',
 			backgroundColor: 'white',
 			position: 'relative',
 			cursor: 'pointer'
@@ -54,7 +63,7 @@ export default function MediaLogin() {
 	const [channel, setChannel] = useState('')
 	const [errorReps, setErrorReps] = useState('')
 
-	const [mediaState, setMediaState] = useState('owner')
+	const [mediaState, setMediaState] = useState('planner')
 
 	const [errorMessaging, setErrorMessaging] = useState(null)
 
@@ -99,11 +108,15 @@ export default function MediaLogin() {
 		switch (mediaState) {
 			case 'owner':
 				return (
-					<MediaLoginForm type="Owner" colorTheme="#e96941" />
+					<MediaLoginForm type="Owner" colorTheme="#6a5fcd" role="media_owner" />
 				)
 			case 'planner':
 				return (
-					<MediaLoginForm type="Planner" colorTheme="#970eff" />
+					<MediaLoginForm type="Planner" colorTheme="#e96941" role="media_agency" />
+				)
+			case 'brand':
+				return (
+					<MediaLoginForm type="Brand" colorTheme="#e502ba" role="admin" />
 				)
 			default:
 			// code block
@@ -125,8 +138,9 @@ export default function MediaLogin() {
 		<div className={classes.bg}>
 			<Container maxWidth="sm">
 				<div className={classes.tabWrapper}>
-					<span onClick={() => toggleMedia('owner')} className={[classes.tab1, mediaState === 'owner' ? 'selected' : ''].join(' ')}>Media Owner</span>
-					<span onClick={() => toggleMedia('planner')} className={[classes.tab2, mediaState === 'planner' ? 'selected' : ''].join(' ')}>Media Planner</span>
+					<span onClick={() => toggleMedia('planner')} className={[classes.tab1, mediaState === 'planner' ? 'selected' : ''].join(' ')}>Media Planner</span>
+					<span onClick={() => toggleMedia('owner')} className={[classes.tab2, mediaState === 'owner' ? 'selected' : ''].join(' ')}>Media Owner</span>
+					<span onClick={() => toggleMedia('brand')} className={[classes.tab3, mediaState === 'brand' ? 'selected' : ''].join(' ')}>Brand Advance</span>
 				</div>
 				<ToggleMediaSwitch />
 			</Container>

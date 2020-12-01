@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { useHistory } from 'react-router-dom';
 import { LOGIN_USER } from '../store/actions';
 import Select from '@material-ui/core/Select';
@@ -102,10 +102,8 @@ const useStyles = props => makeStyles((theme) => ({
 export default function MediaLoginForm(props) {
 
 	const { type } = props
-	const { register, handleSubmit, errors } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
+	const { control, register, handleSubmit, errors } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
 	const classes = useStyles(props)()
-	const history = useHistory();
-
 	const [name, setName] = useState('')
 	const [mediaBuyer, setMediaBuyer] = useState('')
 	const [email, setEmail] = useState('')
@@ -113,12 +111,9 @@ export default function MediaLoginForm(props) {
 	const [password, setPassword] = useState('')
 	const [channel, setChannel] = useState('')
 	const [errorReps, setErrorReps] = useState('')
-
-	const [mediaState, setMediaState] = useState('owner')
-
 	const [errorMessaging, setErrorMessaging] = useState(null)
+	const [isLogin, setIsLogin] = useState(false);
 
-	const userLoggedIn = useSelector((state) => state.userLoggedIn);
 
 
 	useEffect(() => {
@@ -126,19 +121,28 @@ export default function MediaLoginForm(props) {
 
 	const dispatch = useDispatch()
 
-	const onSubmit = data => {
+	const onRegister = data => {
 		console.log(data, 'data')
 
-		mediaRegisteredApi('http://localhost:5000/api/v1/register', data)
+		mediaRegisteredApi('http://18.191.199.214:5000/api/v1/register', data)
 			.then((response) => {
 				console.log(response);
 			})
 			.catch(error => {
-				console.log(error, 'errors in catch!!!')
+				setErrorReps(error.message)
+			});
+	}
+
+	const onLogin = data => {
+		console.log(data, 'data')
+		mediaRegisteredApi('http://18.191.199.214:5000/api/v1/login', data)
+			.then((response) => {
+				console.log(response);
+			})
+			.catch(error => {
+				setErrorReps(error.message)
 				// setErrorReps(error.error)
 			});
-
-		// history.push('/home')
 	}
 
 
@@ -150,82 +154,15 @@ export default function MediaLoginForm(props) {
 		const channel = event.target.value
 	}
 
-	const toggleMedia = (type) => {
-		setMediaState(type)
-	}
-
-	const toggleMediaSwitch = () => {
-
-	}
-
-	const submitForm = async () => {
-		try {
-			const user = await Auth.signIn(email, password)
-			loginUser(user)
-			return true;
-		} catch (e) {
-			setErrorMessaging(e.message);
-			return false
-		}
-	}
-
 	return (
 
 		<div className={classes.boxShadow}>
 			<div className={classes.paper}>
-				<form
+				{/* <Registeration /> */}
+				{props.type === 'Brand' || isLogin ? <form
 					className={classes.form}
-					// ref={useRef()  }
-					onSubmit={handleSubmit(onSubmit)}
+					onSubmit={handleSubmit(onLogin)}
 				>
-					<TextField
-						className={classes.customfield}
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-						variant="outlined"
-						margin="normal"
-						fullWidth
-						id="name"
-						label="Name"
-						name="name"
-						autoComplete="name"
-						autoFocus
-						inputRef={register({ required: true })}
-						error={errors.name?.type === 'required' || errors.name?.type === 'validate'}
-					/>
-					{errors.name?.type === 'required' && <span className={classes.errorMsg}>This field is required</span>}
-					{errors.name?.type === 'validate' && <span className={classes.errorMsg}>{errorMessaging}</span>}
-					<TextField
-						className={classes.customfield}
-						value={mediaBuyer}
-						onChange={(e) => setMediaBuyer(e.target.value)}
-						variant="outlined"
-						margin="normal"
-						fullWidth
-						id="media-buyer"
-						label="Media Buyer"
-						name="media-buyer"
-						autoComplete="media-buyer"
-					/>
-					{type === 'Planner' && <FormControl variant="outlined" className={[classes.selectControl, classes.customfield].join(' ')}>
-						<InputLabel id="demo-simple-select-outlined-label">Channels</InputLabel>
-						<Select
-							labelId="demo-simple-select-outlined-label"
-							id="demo-simple-select-outlined"
-							value={channel}
-							onChange={(event) => channelOnChange(event)}
-							label="Feed Type"
-						>
-							<MenuItem value="">
-								<em>None</em>
-							</MenuItem>
-							<MenuItem value={'top-albums'}>Top Albums</MenuItem>
-							<MenuItem value={'top-songs'}>Top Songs</MenuItem>
-							<MenuItem value={'hot-tracks'}>Hot Tracks</MenuItem>
-							<MenuItem value={'new-releases'}>New Releases</MenuItem>
-							<MenuItem value={'coming-soon'}>Coming Soon</MenuItem>
-						</Select>
-					</FormControl>}
 					<TextField
 						className={classes.customfield}
 						value={email}
@@ -238,22 +175,8 @@ export default function MediaLoginForm(props) {
 						name="email"
 						autoComplete="email"
 						inputRef={register({ required: true })}
-						error={errors.email?.type === 'required' || errors.email?.type === 'validate'}
 					/>
 					{errors.email?.type === 'required' && <span className={classes.errorMsg}>This field is required</span>}
-					{errors.email?.type === 'validate' && <span className={classes.errorMsg}>{errorMessaging}</span>}
-					<TextField
-						className={classes.customfield}
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
-						variant="outlined"
-						margin="normal"
-						fullWidth
-						id="username"
-						label="Username"
-						name="username"
-						autoComplete="username"
-					/>
 					<TextField
 						className={classes.customfield}
 						value={password}
@@ -270,7 +193,6 @@ export default function MediaLoginForm(props) {
 						error={errors.password?.type === 'required' || errors.password?.type === 'validate'}
 					/>
 					{errors.password?.type === 'required' && <span className={classes.errorMsg}>This field is required</span>}
-					{errors.password?.type === 'validate' && <span className={classes.errorMsg}>{errorMessaging}</span>}
 					{errorReps !== '' && <span className={classes.errorMsg}>{errorReps}</span>}
 
 
@@ -281,19 +203,113 @@ export default function MediaLoginForm(props) {
 								type="submit"
 								variant="contained"
 								color="primary"
-								className={classes.joinBtn}
-							>
-								Join
-		</Button>
-							<Button
-								type="submit"
+								className={classes.loginBtn}
+							>login</Button>
+
+							{props.type !== 'Brand' && <Button
+								onClick={() => setIsLogin(false)}
 								variant="contained"
 								color="primary"
-								className={classes.loginBtn}
-							>login</Button></div>
+								className={classes.joinBtn}
+							>Join
+							</Button>}
+						</div>
 					</div>
-				</form>
+				</form> : <form className={classes.form}
+					onSubmit={handleSubmit(onRegister)}
+				>
+						<TextField
+							className={classes.customfield}
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+							variant="outlined"
+							margin="normal"
+							fullWidth
+							id="name"
+							label="Name"
+							name="name"
+							autoComplete="name"
+							inputRef={register({ required: true })}
+							error={errors.name?.type === 'required' || errors.name?.type === 'validate'}
+						/>
+						{errors.name?.type === 'required' && <span className={classes.errorMsg}>This field is required</span>}
+						{errors.name?.type === 'validate' && <span className={classes.errorMsg}>{errorMessaging}</span>}
+
+						<TextField
+							className={classes.customfield}
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+							variant="outlined"
+							margin="normal"
+							fullWidth
+							id="email"
+							label="Email"
+							name="email"
+							autoComplete="email"
+							inputRef={register({ required: true })}
+							error={errors.email?.type === 'required' || errors.email?.type === 'validate'}
+						/>
+						{errors.email?.type === 'required' && <span className={classes.errorMsg}>This field is required</span>}
+						{errors.email?.type === 'validate' && <span className={classes.errorMsg}>{errorMessaging}</span>}
+						<TextField
+							className={classes.customfield}
+							value={username}
+							onChange={(e) => setUsername(e.target.value)}
+							variant="outlined"
+							margin="normal"
+							fullWidth
+							id="username"
+							label="Username"
+							name="username"
+							autoComplete="username"
+							inputRef={register()}
+						/>
+						<TextField
+							className={classes.customfield}
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							variant="outlined"
+							margin="normal"
+							fullWidth
+							name="password"
+							label="Password"
+							type="password"
+							id="password"
+							autoComplete="current-password"
+							inputRef={register({ required: true })}
+							error={errors.password?.type === 'required' || errors.password?.type === 'validate'}
+						/>
+						{errors.password?.type === 'required' && <span className={classes.errorMsg}>This field is required</span>}
+						{errors.password?.type === 'validate' && <span className={classes.errorMsg}>{errorMessaging}</span>}
+						{errorReps !== '' && <span className={classes.errorMsg}>{errorReps}</span>}
+
+						<div className={classes.actionWrapper}>
+							<p style={{ display: 'block' }}>Media {type}</p>
+							<div>
+								<Button
+									type="submit"
+									variant="contained"
+									color="primary"
+									className={classes.joinBtn}
+								>Join
+							</Button>
+								<Button
+									type="submit"
+									variant="contained"
+									color="primary"
+									className={classes.loginBtn}
+									onClick={() => setIsLogin(true)}
+								>login</Button></div>
+						</div>
+						<TextField
+							value={props.role}
+							name="role"
+							type="hidden"
+							id="role"
+							inputRef={register()}
+						/>
+					</form>}
 			</div>
-		</div>
+		</div >
 	)
 }
