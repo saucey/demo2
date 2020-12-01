@@ -3,14 +3,8 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom';
-import { LOGIN_USER } from '../store/actions';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import mediaRegisteredApi from '../api/mediaRegisteredApi'
 
 const useStyles = props => makeStyles((theme) => ({
 	selectControl: {
@@ -27,9 +21,6 @@ const useStyles = props => makeStyles((theme) => ({
 		marginTop: '0',
 		'& .MuiInputLabel-root.Mui-shrink': {
 			color: 'red'
-			// "& .Mui-shrink": {
-			// 	color: 'red'
-			// },
 		},
 		'& .MuiOutlinedInput-input': {
 			padding: '8.5px 14px',
@@ -110,52 +101,41 @@ export default function MediaLoginForm(props) {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const [channel, setChannel] = useState('')
-	const [errorReps, setErrorReps] = useState('')
+	const history = useHistory();
 	const [errorMessaging, setErrorMessaging] = useState(null)
 	const [isLogin, setIsLogin] = useState(false);
-
-
+	const userLoggedIn = useSelector((state) => state.loggedInSession);
+	const error = useSelector((state) => state.error);
 
 	useEffect(() => {
-	}, [])
+		dispatch({
+			type: 'ERROR',
+			error: null
+		})
+
+		if (userLoggedIn !== null) {
+			history.push(userLoggedIn.redirect);
+		}
+
+	}, [userLoggedIn])
 
 	const dispatch = useDispatch()
 
-	const onRegister = data => {
-		console.log(data, 'data')
-
-		mediaRegisteredApi('http://18.191.199.214:5000/api/v1/register', data)
-			.then((response) => {
-				console.log(response);
-			})
-			.catch(error => {
-				setErrorReps(error.message)
-			});
-	}
-
 	const onLogin = data => {
-		console.log(data, 'data')
-		mediaRegisteredApi('http://18.191.199.214:5000/api/v1/login', data)
-			.then((response) => {
-				console.log(response);
-			})
-			.catch(error => {
-				setErrorReps(error.message)
-				// setErrorReps(error.error)
-			});
+		dispatch({
+			type: 'LOGIN',
+			login: data
+		})
 	}
 
-
-	const loginUser = (user) => {
-		dispatch(LOGIN_USER(user))
-	}
-
-	const channelOnChange = (event) => {
-		const channel = event.target.value
+	const onRegister = data => {
+		dispatch({
+			type: 'REGISTER',
+			register: data
+		})
 	}
 
 	return (
-
 		<div className={classes.boxShadow}>
 			<div className={classes.paper}>
 				{/* <Registeration /> */}
@@ -193,7 +173,7 @@ export default function MediaLoginForm(props) {
 						error={errors.password?.type === 'required' || errors.password?.type === 'validate'}
 					/>
 					{errors.password?.type === 'required' && <span className={classes.errorMsg}>This field is required</span>}
-					{errorReps !== '' && <span className={classes.errorMsg}>{errorReps}</span>}
+					{error !== null && <span className={classes.errorMsg}>{error.message}</span>}
 
 
 					<div className={classes.actionWrapper}>
@@ -215,6 +195,13 @@ export default function MediaLoginForm(props) {
 							</Button>}
 						</div>
 					</div>
+					<TextField
+						value={props.role}
+						name="role"
+						type="hidden"
+						id="role"
+						inputRef={register()}
+					/>
 				</form> : <form className={classes.form}
 					onSubmit={handleSubmit(onRegister)}
 				>
@@ -281,7 +268,7 @@ export default function MediaLoginForm(props) {
 						/>
 						{errors.password?.type === 'required' && <span className={classes.errorMsg}>This field is required</span>}
 						{errors.password?.type === 'validate' && <span className={classes.errorMsg}>{errorMessaging}</span>}
-						{errorReps !== '' && <span className={classes.errorMsg}>{errorReps}</span>}
+						{error !== null && <span className={classes.errorMsg}>{error.message}</span>}
 
 						<div className={classes.actionWrapper}>
 							<p style={{ display: 'block' }}>Media {type}</p>

@@ -1,17 +1,32 @@
 
 const initState = {
+  loggedInSession: null,
+  error: null
 }
 
 const Reducer = (state = initState, action) => {
 
+  console.log(state, 'reducer!!!')
+  console.log(action, 'action!!!')
 
   switch (action.type) {
-
-      // you can have as many case statements as you need
+    case 'LOGGED_IN_SESSION':
+      return {
+        ...state,
+        loggedInSession: action.loggedInSession
+      }
+    case 'ERROR':
+      return {
+        ...state,
+        error: action.error
+      }
+    // you can have as many case statements as you need
 
     default:
       return state
   }
+
+
 }
 
 export default Reducer
