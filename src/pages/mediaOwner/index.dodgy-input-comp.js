@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function MediaPlanner() {
+export default function MediaOwner() {
 
     const searchInput = useRef(null);
     const inputRef = useRef([]);
@@ -77,11 +77,36 @@ export default function MediaPlanner() {
     const { control, register, handleSubmit, errors } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
 
     useEffect(() => {
+        inputRef.current[1].focus();
     }, [])
 
     const handleChange = (event) => {
         console.log(event, 'the event')
     };
+
+    const InputTest = () => {
+        const handleChange = (val) => {
+            setEmail(val)
+            inputRef.current[1].focus();
+
+        };
+
+        return (
+            <TextField
+                className={classes.customfield}
+                defaultValue={email}
+                onChange={(e) => handleChange(e.target.value)}
+                variant="outlined"
+                margin="normal"
+                id="email"
+                label="Email"
+                name="email"
+                autoComplete="email"
+                ref={el => inputRef.current[1] = el}
+                error={errors.email?.type === 'required' || errors.email?.type === 'validate'}
+            />
+        )
+    }
 
     return (
         <div className={classes.root}>
@@ -89,8 +114,9 @@ export default function MediaPlanner() {
                 <Grid item xs={12}>
                     <Button className={classes.addActionBtn} variant="outlined" color="primary">
                         <AddCircleOutlineIcon style={{ marginRight: '10px', color: '#a2e60f' }} />
-                        Create Media Campaign
+                        Create Media
                     </Button>
+                    <InputTest />
                 </Grid>
             </Grid>
         </div>

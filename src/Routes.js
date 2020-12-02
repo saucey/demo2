@@ -4,10 +4,14 @@ import MediaLogin from './pages/signup/mediaLogin'
 import CreateMedia from './pages/createMedia/index'
 import MediaPlanner from './pages/mediaPlanner/index'
 import MediaOwner from './pages/mediaOwner/index'
+import Admin from './pages/admin/index'
+import AddPersona from './pages/addPersona/index'
 
 export default () => (
   <BrowserRouter>
     <Switch>
+      <Route path="/admin" exact component={Admin} />
+      <Route path="/add-persona" exact component={AddPersona} />
       <Route path="/media-login" exact component={MediaLogin} />
       <Route path="/create-media" exact component={CreateMedia} />
       <Route path="/media-planner" exact component={MediaPlanner} />

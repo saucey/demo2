@@ -1,10 +1,14 @@
 
 const initState = {
   loggedInSession: null,
-  error: null
+  error: null,
+  createMedia: null
 }
 
 const Reducer = (state = initState, action) => {
+
+  console.log(state, 'the state')
+  console.log(action, 'the action')
 
   switch (action.type) {
     case 'LOGGED_IN_SESSION':
@@ -16,6 +20,17 @@ const Reducer = (state = initState, action) => {
       return {
         ...state,
         error: action.error
+      }
+    case 'SEND_ABOUT':
+      return {
+        ...state,
+        createMedia: action.createMedia
+      }
+
+    case 'SEND_PERSONA':
+      return {
+        ...state,
+        createMedia: { ...state.createMedia, persona: action.persona }
       }
     // you can have as many case statements as you need
 

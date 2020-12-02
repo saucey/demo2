@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function MediaPlanner() {
+export default function Admin() {
 
     const searchInput = useRef(null);
     const inputRef = useRef([]);
@@ -89,7 +89,7 @@ export default function MediaPlanner() {
                 <Grid item xs={12}>
                     <Button className={classes.addActionBtn} variant="outlined" color="primary">
                         <AddCircleOutlineIcon style={{ marginRight: '10px', color: '#a2e60f' }} />
-                        Create Media Campaign
+                        Create User
                     </Button>
                 </Grid>
             </Grid>

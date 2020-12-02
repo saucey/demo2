@@ -54,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AudienceInputs = (props) => {
-
     // The number of references is undetermined
     // After fetching data, we can determine array's length
     const inputRef = useRef([]);
@@ -82,7 +81,6 @@ const AudienceInputs = (props) => {
         inputRef.current = new Array(data.length);
         // We set state
         setData(data);
-
     }, []);
 
     useEffect(() => {
@@ -91,9 +89,7 @@ const AudienceInputs = (props) => {
         if (data.length !== 0) {
             // Focusing the last <input></input>
             inputRef.current[data.length - 1].focus();
-
         }
-
     }, [data]);
 
     const onAChange = (e) => {
@@ -108,12 +104,6 @@ const AudienceInputs = (props) => {
             {data.map((element, i) => <TextField variant="outlined" margin="normal" label={element} fullWidth className={classes.customfield} value={aud[element]} name={element} onChange={(event) => onAChange(event)} ref={el => inputRef.current[i] = el} placeholder={element} />)}
         </div>
     );
-
-    // return (
-    //     <div>
-    //         {data.map((element, i) => <TextField variant="outlined" margin="normal" label={element} fullWidth className={classes.customfield} value={aud[element]} name={element} onChange={(event) => onAChange(event)} ref={el => inputRef.current[i] = el} placeholder={element} />)}
-    //     </div>
-    // );
 }
 
 export default React.memo(AudienceInputs);
