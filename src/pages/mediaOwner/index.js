@@ -12,7 +12,8 @@ import ControlPointTwoToneIcon from '@material-ui/icons/ControlPointTwoTone';
 //TextField
 import TextField from '@material-ui/core/TextField'
 import { useForm } from 'react-hook-form'
-
+import { useHistory } from 'react-router-dom';
+import MainLayout from '../../layouts/mainLayout'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -67,11 +68,11 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function MediaOwner() {
+const MediaOwner = () => {
 
     const searchInput = useRef(null);
     const inputRef = useRef([]);
-
+    const history = useHistory();
     const classes = useStyles();
     const [email, setEmail] = useState([]);
     const { control, register, handleSubmit, errors } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
@@ -79,15 +80,15 @@ export default function MediaOwner() {
     useEffect(() => {
     }, [])
 
-    const handleChange = (event) => {
-        console.log(event, 'the event')
+    const createMedia = () => {
+        history.push('/create-media');
     };
 
     return (
         <div className={classes.root}>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <Button className={classes.addActionBtn} variant="outlined" color="primary">
+                    <Button onClick={() => createMedia()} className={classes.addActionBtn} variant="outlined" color="primary">
                         <AddCircleOutlineIcon style={{ marginRight: '10px', color: '#a2e60f' }} />
                         Create Media
                     </Button>
@@ -96,3 +97,5 @@ export default function MediaOwner() {
         </div>
     );
 }
+
+export default MainLayout(MediaOwner)

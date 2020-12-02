@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import { useForm } from 'react-hook-form'
 import MediaLoginForm from '../../components/mediaLoginForm'
+import MainLayout from '../../layouts/mainLayout'
 
 const useStyles = makeStyles((theme) => ({
 	tab1: {
@@ -46,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function MediaLogin() {
+const MediaLogin = () => {
 	const { register, handleSubmit, errors } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
 	const classes = useStyles()
 	const [mediaState, setMediaState] = useState('planner')
@@ -92,3 +93,5 @@ export default function MediaLogin() {
 		</div>
 	)
 }
+
+export default MainLayout(MediaLogin)

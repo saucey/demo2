@@ -41,6 +41,7 @@ import clsx from 'clsx';
 //Add Persona
 import AddPersona from '../addPersona/index'
 import { useDispatch } from 'react-redux'
+import MainLayout from '../../layouts/mainLayout'
 
 const ColorlibConnector = withStyles({
     alternativeLabel: {
@@ -48,14 +49,16 @@ const ColorlibConnector = withStyles({
     },
     active: {
         '& $line': {
-            backgroundImage:
-                'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+            backgroundColor: '#0e82f4'
+            // backgroundImage:
+            // 'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
         },
     },
     completed: {
         '& $line': {
-            backgroundImage:
-                'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+            backgroundColor: '#0e82f4'
+            // backgroundImage:
+            // 'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
         },
     },
     line: {
@@ -80,13 +83,14 @@ const useColorlibStepIconStyles = makeStyles({
         alignItems: 'center',
     },
     active: {
-        backgroundImage:
-            'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
-        boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
+        backgroundColor: '#0e82f4'
+        // backgroundImage:'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+        // boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
     },
     completed: {
-        backgroundImage:
-            'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+        backgroundColor: '#0e82f4'
+        // backgroundImage:
+        // 'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
     },
 });
 
@@ -117,9 +121,14 @@ const getSteps = () => {
 }
 
 const useStyles = makeStyles((theme) => ({
+    stepperWrapper: {
+        paddingLeft: 0,
+        paddingRight: 0,
+        background: 'none'
+    },
     root: {
         flexGrow: 1,
-        padding: '40px'
+        padding: '60px'
     },
     pageTitle: {
         color: '#e96941',
@@ -208,7 +217,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function CreateMedia() {
+const CreateMedia = () => {
     const { register, handleSubmit, errors, control } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
     const dispatch = useDispatch()
 
@@ -218,6 +227,7 @@ export default function CreateMedia() {
     const [channel, setChannel] = useState('television')
     const [name, setName] = useState('')
     const [sex, setSex] = useState('')
+    const [frequency, setFrequency] = useState('')
     const [test, setTest] = useState('')
     const [audience, setAudience] = useState({
         circulation: '',
@@ -274,7 +284,7 @@ export default function CreateMedia() {
 
     return (
         <div className={classes.root}>
-            <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
+            <Stepper className={classes.stepperWrapper} alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
                 {steps.map((label) => (
                     <Step key={label}>
                         <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
@@ -332,23 +342,22 @@ export default function CreateMedia() {
                                             error={errors.name?.type === 'required'}
                                         />
                                         <FormControl fullWidth variant="outlined" className={[classes.selectControl, classes.customfield].join(' ')}>
-                                            <InputLabel id="demo-simple-select-outlined-label">Frequency</InputLabel>
-                                            <Select
-                                                labelId="demo-simple-select-outlined-label"
-                                                id="demo-simple-select-outlined"
-                                                value={channel}
-                                                onChange={(event) => channelOnChange(event)}
-                                                label="Feed Type"
-                                            >
-                                                <MenuItem value="">
-                                                    <em>None</em>
-                                                </MenuItem>
-                                                <MenuItem value={'top-albums'}>Top Albums</MenuItem>
-                                                <MenuItem value={'top-songs'}>Top Songs</MenuItem>
-                                                <MenuItem value={'hot-tracks'}>Hot Tracks</MenuItem>
-                                                <MenuItem value={'new-releases'}>New Releases</MenuItem>
-                                                <MenuItem value={'coming-soon'}>Coming Soon</MenuItem>
-                                            </Select>
+                                            <InputLabel id="demo-simple-select-label">Frequencey</InputLabel>
+                                            <Controller
+                                                as={
+                                                    <Select>
+                                                        <MenuItem value={''}></MenuItem>
+                                                        <MenuItem value={'Web Designer'}>one</MenuItem>
+                                                        <MenuItem value={'CAD architect'}>two</MenuItem>
+                                                        <MenuItem value={'Teacher'}>three</MenuItem>
+                                                    </Select>
+                                                }
+                                                aria-label="Frequencey"
+                                                name="Frequencey"
+                                                control={control}
+                                                onChange={(event) => setFrequence(event.target.value)}
+                                                defaultValue={frequency}
+                                            />
                                         </FormControl>
                                         <Grid container>
                                             {/* <FormControl variant="outlined" error={Boolean(errors.description)} fullWidth> */}
@@ -402,3 +411,5 @@ export default function CreateMedia() {
         </div >
     );
 }
+
+export default MainLayout(CreateMedia)
