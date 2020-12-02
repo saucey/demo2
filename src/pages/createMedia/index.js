@@ -213,6 +213,12 @@ const useStyles = makeStyles((theme) => ({
     },
     radioControl: {
         // border: '1px solid red'
+    },
+    checkNRadio: {
+        '& .MuiFormLabel-root': {
+            color: '#1d8bf7',
+            marginBottom: '8px'
+        },
     }
 }));
 
@@ -303,7 +309,7 @@ const CreateMedia = () => {
                                 <h1 className={classes.pageTitle}>Create Media</h1>
                                 <Grid container spacing={3}>
                                     <Grid item md={2} sm={6} xs={12}>
-                                        <FormControl variant="outlined" className={classes.radioControl} style={{ minWidth: 300 }} error={Boolean(errors.channel)}>
+                                        <FormControl variant="outlined" className={classes.checkNRadio} style={{ minWidth: 300 }} error={Boolean(errors.channel)}>
                                             <FormLabel component="legend">Channel</FormLabel>
                                             <Controller
                                                 as={
