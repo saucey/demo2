@@ -194,11 +194,11 @@ export default function addPersona() {
         console.log(createMedia, 'media states')
     }, [createMedia])
 
-    const onSubmit = data => {
+    const onSubmit = persona => {
 
         dispatch({
             type: 'SEND_PERSONA',
-            persona: data
+            persona
         })
     }
 
@@ -263,7 +263,7 @@ export default function addPersona() {
                                             aria-label="Income"
                                             // rules={{ required: "this is required" }}
                                             control={control}
-                                            error={errors.income?.type === 'required'}
+                                            // error={errors.income?.type === 'required'}
                                             onChange={(event) => setIcome(event.target.value)}
                                             defaultValue={income}
                                         />
@@ -274,6 +274,7 @@ export default function addPersona() {
                                         {['Television', 'Intuitive', 'Thinking', 'Judging', 'Extrovert', 'Sensing', 'Feeling', 'Perceiving'].map(val => {
                                             return (
                                                 <FormControlLabel
+                                                    key={val}
                                                     label={val}
                                                     control={<Controller
                                                         name={`persona[personality][${val}]`}
@@ -524,7 +525,6 @@ export default function addPersona() {
                                             name="persona[about][description]"
                                             // rules={{ required: "this is required" }}
                                             control={control}
-                                            error={errors.description?.type === 'required'}
                                             onChange={(event) => setDescription(event.target.value)}
                                             defaultValue={description}
                                             className={classes.textarea} aria-label="minimum height" rowsMin={10} placeholder="Description"
@@ -537,19 +537,19 @@ export default function addPersona() {
                                         <Controller
                                             as={
                                                 <RadioGroup>
-                                                    <FormControlLabel value="television" control={<Radio />} label="Higher Education & professional/vocational equivalents" />
-                                                    <FormControlLabel value="radio" control={<Radio />} label="A levels, vocational level 3 and equivalents" />
-                                                    <FormControlLabel value="print" control={<Radio />} label="GCSE/O Level grade A*-C, vocational level 2 and equivalents" />
-                                                    <FormControlLabel value="digital" control={<Radio />} label="Qualifications at level 1 and below" />
-                                                    <FormControlLabel value="ooh" control={<Radio />} label="Other qualifications: level unknown (inclduing foreign qualifications)" />
-                                                    <FormControlLabel value="social" control={<Radio />} label="No qualifications" />
+                                                    <FormControlLabel value="Higher Education & professional/vocational equivalents" control={<Radio />} label="Higher Education & professional/vocational equivalents" />
+                                                    <FormControlLabel value="A levels, vocational level 3 and equivalents" control={<Radio />} label="A levels, vocational level 3 and equivalents" />
+                                                    <FormControlLabel value="GCSE/O Level grade A*-C, vocational level 2 and equivalents" control={<Radio />} label="GCSE/O Level grade A*-C, vocational level 2 and equivalents" />
+                                                    <FormControlLabel value="Qualifications at level 1 and below" control={<Radio />} label="Qualifications at level 1 and below" />
+                                                    <FormControlLabel value="Other qualifications: level unknown (inclduing foreign qualifications)" control={<Radio />} label="Other qualifications: level unknown (inclduing foreign qualifications)" />
+                                                    <FormControlLabel value="No qualifications" control={<Radio />} label="No qualifications" />
                                                 </RadioGroup>
                                             }
                                             name="persona[educationLevel]"
                                             aria-label="Education Level"
                                             // rules={{ required: "this is required" }}
                                             control={control}
-                                            error={errors.educationLevel?.type === 'required'}
+                                            // error={errors.educationLevel?.type === 'required'}
                                             onChange={(event) => setEducationLevel(event.target.value)}
                                             defaultValue={educationLevel}
                                         />
@@ -560,16 +560,16 @@ export default function addPersona() {
                                         <Controller
                                             as={
                                                 <RadioGroup>
-                                                    <FormControlLabel value="television" control={<Radio />} label="One parent with higher education" />
-                                                    <FormControlLabel value="print" control={<Radio />} label="More than one parent with higher education qualification" />
-                                                    <FormControlLabel value="ooh" control={<Radio />} label="No parents with higher education qualification" />
+                                                    <FormControlLabel value="One parent with higher education" control={<Radio />} label="One parent with higher education" />
+                                                    <FormControlLabel value="More than one parent with higher education qualification" control={<Radio />} label="More than one parent with higher education qualification" />
+                                                    <FormControlLabel value="No parents with higher education qualification" control={<Radio />} label="No parents with higher education qualification" />
                                                 </RadioGroup>
                                             }
                                             name="persona[parentalEducationLevel]"
                                             aria-label="Parental Education Level"
                                             // rules={{ required: "this is required" }}
                                             control={control}
-                                            error={errors.parentalEducationLevel?.type === 'required'}
+                                            // error={errors.parentalEducationLevel?.type === 'required'}
                                             onChange={(event) => setParentalEducationLevel(event.target.value)}
                                             defaultValue={parentalEducationLevel}
                                         />
@@ -581,9 +581,10 @@ export default function addPersona() {
                                 <Paper className={classes.paper}>
                                     <FormControl component="fieldset" error={Boolean(errors.motivations)} className={classes.checkNRadio}>
                                         <FormLabel component="legend">Motivations</FormLabel>
-                                        {['Price', 'Saves Time', 'Ease of Use', 'Creativity', 'Uniquencess'].map(val => {
+                                        {['Price', 'SavesTime', 'EaseofUse', 'Creativity', 'Uniquencess'].map(val => {
                                             return (
                                                 <FormControlLabel
+                                                    key={val}
                                                     label={val}
                                                     control={<Controller
                                                         name={`persona[motivations][${val}]`}
@@ -605,9 +606,10 @@ export default function addPersona() {
                                     <hr style={{ marginBottom: '20px' }} />
                                     <FormControl component="fieldset" error={Boolean(errors.hobbiesInterests)} className={classes.checkNRadio}>
                                         <FormLabel component="legend">Hobbies & Interests</FormLabel>
-                                        {['Television', 'Radio', 'Print', 'Digital/Onine', 'Cinema/Threatre', 'Art/Design', 'Blogging', 'Volunteering', 'Yoga', 'Reading'].map(val => {
+                                        {['Television', 'Radio', 'Print', 'DigitalOnline', 'CinemaThreatre', 'ArtDesign', 'Blogging', 'Volunteering', 'Yoga', 'Reading'].map(val => {
                                             return (
                                                 <FormControlLabel
+                                                    key={val}
                                                     label={val}
                                                     control={<Controller
                                                         name={`persona[hobbiesInterests][${val}]`}
@@ -642,7 +644,7 @@ export default function addPersona() {
                                             aria-label="Housing Unit"
                                             // rules={{ required: "this is required" }}
                                             control={control}
-                                            error={errors.housingUnits?.type === 'required'}
+                                            // error={errors.housingUnits?.type === 'required'}
                                             onChange={(event) => setHousingUnits(event.target.value)}
                                             defaultValue={housingUnits}
                                         />
@@ -653,6 +655,7 @@ export default function addPersona() {
                                         {['Anarchism', 'Absolutism', 'Liberalism', 'Conservatism', 'Socialism', 'Capitalism', 'Other', 'Prefer not to say'].map(val => {
                                             return (
                                                 <FormControlLabel
+                                                    key={val}
                                                     label={val}
                                                     control={<Controller
                                                         name={`persona[politicalBeliefs][${val}]`}

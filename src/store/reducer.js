@@ -30,7 +30,7 @@ const Reducer = (state = initState, action) => {
     case 'SEND_PERSONA':
       return {
         ...state,
-        createMedia: { ...state.createMedia, persona: action.persona }
+        createMedia: { ...state.createMedia, persona: action.persona.persona }
       }
     // you can have as many case statements as you need
 

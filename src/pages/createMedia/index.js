@@ -229,62 +229,47 @@ const CreateMedia = () => {
 
     const [activeStep, setActiveStep] = useState(0);
     const steps = getSteps();
-    const [value, setValue] = useState('female');
-    const [channel, setChannel] = useState('television')
+    const [channel, setChannel] = useState('radio')
     const [name, setName] = useState('')
-    const [sex, setSex] = useState('')
     const [frequency, setFrequency] = useState('')
-    const [test, setTest] = useState('')
-    const [audience, setAudience] = useState({
-        circulation: '',
-        viewer: '',
-        catchment: '',
-        listeners: '',
-        readership: '',
-        impressions: '',
-        browsers: '',
-        visibilty: '',
-        engagement: '',
-    })
+
+    const [circulation, setCirculation] = useState('')
+    const [viewer, setViewer] = useState('')
+    const [catchment, setCatchment] = useState('')
+
+    const [listeners, setListeners] = useState('')
+    const [readership, setReadership] = useState('')
+    const [impressions, setImpressions] = useState('')
+    const [browsers, setBrowsers] = useState('')
+    const [visibilty, setVisibilty] = useState('')
+    const [engagement, setEngagement] = useState('')
+
+
+
+
 
     const classes = useStyles();
 
 
     useEffect(() => {
-    }, [channel, setChannel])
+    }, [channel])
+
 
     const selectImg = () => {
 
     }
 
-    const onSubmit = form => {
+    const onSubmit = createMedia => {
 
-        const createMedia = {
-            "profile": {
-                "title": {
-                    "name": form.name,
-                    "frequency": "12-2-2020",
-                    "description": form.description
-                },
-                "channel": [
-                    {
-                        "name": form.channel,
-                        "audience": [
-                            "a",
-                            "b"
-                        ]
-                    },
-                ]
-            },
-            "persona": {}
-        }
+        createMedia.profile.channel.name = channel
+        createMedia.persona = {}
 
         dispatch({
             type: 'SEND_ABOUT',
             createMedia
         })
 
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        // setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
     }
 
@@ -312,8 +297,14 @@ const CreateMedia = () => {
                                         <FormControl variant="outlined" className={classes.checkNRadio} style={{ minWidth: 300 }} error={Boolean(errors.channel)}>
                                             <FormLabel component="legend">Channel</FormLabel>
                                             <Controller
-                                                as={
-                                                    <RadioGroup aria-label="channel">
+                                                control={control}
+                                                name={`profile[channel][name]`}
+                                                render={({ onChange, onBlur, value, name, ref }) => (
+                                                    <RadioGroup
+                                                        aria-label="channel"
+                                                        value={channel}
+                                                        onChange={e => setChannel(e.target.value)}
+                                                    >
                                                         <FormControlLabel value="television" control={<Radio />} label="Television" />
                                                         <FormControlLabel value="radio" control={<Radio />} label="Radio" />
                                                         <FormControlLabel value="print" control={<Radio />} label="Print" />
@@ -321,13 +312,7 @@ const CreateMedia = () => {
                                                         <FormControlLabel value="ooh" control={<Radio />} label="OOH" />
                                                         <FormControlLabel value="social" control={<Radio />} label="Social" />
                                                     </RadioGroup>
-                                                }
-                                                name="channel"
-                                                rules={{ required: "this is required" }}
-                                                control={control}
-                                                error={errors.channel?.type === 'required'}
-                                                onChange={(event) => setChannel(event.target.value)}
-                                                defaultValue={''}
+                                                )}
                                             />
                                         </FormControl>
                                     </Grid>
@@ -342,13 +327,12 @@ const CreateMedia = () => {
                                             fullWidth
                                             id="name"
                                             label="Name"
-                                            name="name"
-                                            // autoComplete="name"
+                                            name="profile[title][name]"
                                             inputRef={register({ required: true })}
                                             error={errors.name?.type === 'required'}
                                         />
                                         <FormControl fullWidth variant="outlined" className={[classes.selectControl, classes.customfield].join(' ')}>
-                                            <InputLabel id="demo-simple-select-label">Frequencey</InputLabel>
+                                            <InputLabel id="demo-simple-select-label">Frequency</InputLabel>
                                             <Controller
                                                 as={
                                                     <Select>
@@ -358,8 +342,8 @@ const CreateMedia = () => {
                                                         <MenuItem value={'Teacher'}>three</MenuItem>
                                                     </Select>
                                                 }
-                                                aria-label="Frequencey"
-                                                name="Frequencey"
+                                                aria-label="Frequency"
+                                                name="profile[title][frequency]"
                                                 control={control}
                                                 onChange={(event) => setFrequence(event.target.value)}
                                                 defaultValue={frequency}
@@ -369,13 +353,11 @@ const CreateMedia = () => {
                                             {/* <FormControl variant="outlined" error={Boolean(errors.description)} fullWidth> */}
                                             <Controller
                                                 as={
-                                                    <TextareaAutosize fullWidth />
+                                                    <TextareaAutosize />
                                                 }
-                                                name="description"
-                                                fullWidth
-                                                rules={{ required: "this is required" }}
+                                                name="profile[title][description]"
+                                                // rules={{ required: "this is required" }}
                                                 control={control}
-                                                error={errors.description?.type === 'required'}
                                                 onChange={(event) => setDescription(event.target.value)}
                                                 defaultValue={''}
                                                 className={classes.textarea} aria-label="minimum height" rowsMin={10} placeholder="Description"
@@ -386,15 +368,16 @@ const CreateMedia = () => {
                                     <Grid item md={3} sm={6} xs={12}>
                                         <h2 className={classes.formTitle}>Audience (print)</h2>
 
-                                        {/print|television/.test(channel) && <TextField variant="outlined" margin="normal" label={'Circulation'} fullWidth className={classes.customfield} value={audience['circulation']} name="circulation" error={errors.circulation?.type === 'required'} inputRef={register({ required: true })} onChange={(e) => setAudience({ ...audience, [e.target.name]: e.target.value })} placeholder={'Circulation'} />}
-                                        {/television/.test(channel) && <TextField variant="outlined" margin="normal" label={'Viewer'} fullWidth className={classes.customfield} value={audience['viewer']} name="viewer" error={errors.viewer?.type === 'required'} inputRef={register({ required: true })} onChange={(e) => setAudience({ ...audience, [e.target.name]: e.target.value })} placeholder={'Viewer'} />}
-                                        {/radio|television/.test(channel) && <TextField variant="outlined" margin="normal" label={'Catchment'} fullWidth className={classes.customfield} value={audience['catchment']} name="catchment" error={errors.catchment?.type === 'required'} inputRef={register({ required: true })} onChange={(e) => setAudience({ ...audience, [e.target.name]: e.target.value })} placeholder={'Catchment'} />}
-                                        {/radio/.test(channel) && <TextField variant="outlined" margin="normal" label={'Listeners'} fullWidth className={classes.customfield} value={audience['listeners']} name="listeners" error={errors.listeners?.type === 'required'} inputRef={register({ required: true })} onChange={(e) => setAudience({ ...audience, [e.target.name]: e.target.value })} placeholder={'Listeners'} />}
-                                        {/print/.test(channel) && <TextField variant="outlined" margin="normal" label={'Readership'} fullWidth className={classes.customfield} value={audience['readership']} name="readership" error={errors.readership?.type === 'required'} inputRef={register({ required: true })} onChange={(e) => setAudience({ ...audience, [e.target.name]: e.target.value })} placeholder={'Readership'} />}
-                                        {/digital/.test(channel) && <TextField variant="outlined" margin="normal" label={'Impressions'} fullWidth className={classes.customfield} value={audience['impressions']} name="impressions" error={errors.impressions?.type === 'required'} inputRef={register({ required: true })} onChange={(e) => setAudience({ ...audience, [e.target.name]: e.target.value })} placeholder={'Impressions'} />}
-                                        {/digital/.test(channel) && <TextField variant="outlined" margin="normal" label={'Browsers'} fullWidth className={classes.customfield} value={audience['browsers']} name="browsers" error={errors.browsers?.type === 'required'} inputRef={register({ required: true })} onChange={(e) => setAudience({ ...audience, [e.target.name]: e.target.value })} placeholder={'Browsers'} />}
-                                        {/ooh/.test(channel) && <TextField variant="outlined" margin="normal" label={'Visibilty'} fullWidth className={classes.customfield} value={audience['visibilty']} name="visibilty" error={errors.visibilty?.type === 'required'} inputRef={register({ required: true })} onChange={(e) => setAudience({ ...audience, [e.target.name]: e.target.value })} placeholder={'Visibilty'} />}
-                                        {/social/.test(channel) && <TextField variant="outlined" margin="normal" label={'Engagement'} fullWidth className={classes.customfield} value={audience['engagement']} name="engagement" error={errors.engagement?.type === 'required'} inputRef={register({ required: true })} onChange={(e) => setAudience({ ...audience, [e.target.name]: e.target.value })} placeholder={'engagement'} />}
+                                        {/print|television/.test(channel) && <TextField variant="outlined" margin="normal" label={'Circulation'} fullWidth className={classes.customfield} value={circulation} name="profile[channel][audience][circulation]" error={errors.circulation?.type === 'required'} inputRef={register()} onChange={(e) => setCirculation(e.target.value)} placeholder={'Circulation'} />}
+                                        {/television/.test(channel) && <TextField variant="outlined" margin="normal" label={'Viewer'} fullWidth className={classes.customfield} value={viewer} name="profile[channel][audience][viewer]" error={errors.viewer?.type === 'required'} inputRef={register()} onChange={(e) => setViewer(e.target.value)} placeholder={'Viewer'} />}
+                                        {/radio|television/.test(channel) && <TextField variant="outlined" margin="normal" label={'Catchment'} fullWidth className={classes.customfield} value={catchment} name="profile[channel][audience][catchment]" error={errors.catchment?.type === 'required'} inputRef={register()} onChange={(e) => setCatchment(e.target.value)} placeholder={'Catchment'} />}
+
+                                        {/radio/.test(channel) && <TextField variant="outlined" margin="normal" label={'Listeners'} fullWidth className={classes.customfield} value={listeners} name="profile[channel][audience][listeners]" error={errors.listeners?.type === 'required'} inputRef={register()} onChange={(e) => setListeners(e.target.value)} placeholder={'Listeners'} />}
+                                        {/print/.test(channel) && <TextField variant="outlined" margin="normal" label={'Readership'} fullWidth className={classes.customfield} value={readership} name="profile[channel][audience][readership]" error={errors.readership?.type === 'required'} inputRef={register()} onChange={(e) => setReadership(e.target.value)} placeholder={'Readership'} />}
+                                        {/digital/.test(channel) && <TextField variant="outlined" margin="normal" label={'Impressions'} fullWidth className={classes.customfield} value={impressions} name="profile[channel][audience][impressions]" error={errors.impressions?.type === 'required'} inputRef={register()} onChange={(e) => setImpressions(e.target.value)} placeholder={'Impressions'} />}
+                                        {/digital/.test(channel) && <TextField variant="outlined" margin="normal" label={'Browsers'} fullWidth className={classes.customfield} value={browsers} name="profile[channel][audience][browsers]" error={errors.browsers?.type === 'required'} inputRef={register()} onChange={(e) => setBrowsers(e.target.value)} placeholder={'Browsers'} />}
+                                        {/ooh/.test(channel) && <TextField variant="outlined" margin="normal" label={'Visibilty'} fullWidth className={classes.customfield} value={visibilty} name="profile[channel][audience][visibilty]" error={errors.visibilty?.type === 'required'} inputRef={register()} onChange={(e) => setVisibilty(e.target.value)} placeholder={'Visibilty'} />}
+                                        {/social/.test(channel) && <TextField variant="outlined" margin="normal" label={'Engagement'} fullWidth className={classes.customfield} value={engagement} name="profile[channel][audience][engagement]" error={errors.engagement?.type === 'required'} inputRef={register()} onChange={(e) => setEngagement(e.target.value)} placeholder={'engagement'} />}
 
                                     </Grid>
                                     <Grid style={{ textAlign: 'center' }} item md={3} sm={6} xs={12}>
