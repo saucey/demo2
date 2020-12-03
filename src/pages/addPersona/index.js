@@ -141,7 +141,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function addPersona() {
+export default function addPersona({ goToPersonaOverview }) {
     const { register, handleSubmit, errors, control } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
 
     const [value, setValue] = useState('female');
@@ -187,19 +187,22 @@ export default function addPersona() {
     const { gilad, jason, antoine } = state;
 
     const createMedia = useSelector((state) => state.createMedia);
+    // const personaSaved = useSelector((state) => state.personaSaved);
 
     const classes = useStyles();
 
     useEffect(() => {
-        console.log(createMedia, 'media states')
     }, [createMedia])
 
     const onSubmit = persona => {
+        const createMediaMap = { ...createMedia, persona: persona.persona }
 
         dispatch({
-            type: 'SEND_PERSONA',
-            persona
+            type: 'SEND_MEDIA_API',
+            createMediaMap
         })
+
+        // goToPersonaOverview()
     }
 
     return (

@@ -18,4 +18,8 @@ export const getRegister = data => {
 	return axios.post(`http://18.191.199.214:5000/api/v1/register`, data);
 };
 
+export const postMediaCreate = data => {
+	return axios.post(`http://18.191.199.214:5000/api/v1/mediaowner/create`, data);
+};
+
 export default mediaRegisteredApi;

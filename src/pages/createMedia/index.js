@@ -3,7 +3,7 @@ import { makeStyles, fade, withTheme, withStyles } from '@material-ui/core/style
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { useForm, Controller } from 'react-hook-form'
-
+import { useSelector } from 'react-redux'
 //Radio
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -40,6 +40,7 @@ import clsx from 'clsx';
 
 //Add Persona
 import AddPersona from '../addPersona/index'
+import PersonaOverview from '../personaOverview/index'
 import { useDispatch } from 'react-redux'
 import MainLayout from '../../layouts/mainLayout'
 
@@ -244,15 +245,16 @@ const CreateMedia = () => {
     const [visibilty, setVisibilty] = useState('')
     const [engagement, setEngagement] = useState('')
 
-
-
-
+    const personaSaved = useSelector((state) => state.personaSaved);
 
     const classes = useStyles();
 
 
     useEffect(() => {
-    }, [channel])
+        if (personaSaved) {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        }
+    }, [channel, personaSaved])
 
 
     const selectImg = () => {
@@ -265,12 +267,15 @@ const CreateMedia = () => {
         createMedia.persona = {}
 
         dispatch({
-            type: 'SEND_ABOUT',
+            type: 'SEND_MEDIA_CREATE',
             createMedia
         })
 
-        // setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
+    }
+
+    const goToPersonaOverview = () => {
     }
 
     return (
@@ -367,18 +372,15 @@ const CreateMedia = () => {
                                     </Grid>
                                     <Grid item md={3} sm={6} xs={12}>
                                         <h2 className={classes.formTitle}>Audience (print)</h2>
-
                                         {/print|television/.test(channel) && <TextField variant="outlined" margin="normal" label={'Circulation'} fullWidth className={classes.customfield} value={circulation} name="profile[channel][audience][circulation]" error={errors.circulation?.type === 'required'} inputRef={register()} onChange={(e) => setCirculation(e.target.value)} placeholder={'Circulation'} />}
                                         {/television/.test(channel) && <TextField variant="outlined" margin="normal" label={'Viewer'} fullWidth className={classes.customfield} value={viewer} name="profile[channel][audience][viewer]" error={errors.viewer?.type === 'required'} inputRef={register()} onChange={(e) => setViewer(e.target.value)} placeholder={'Viewer'} />}
                                         {/radio|television/.test(channel) && <TextField variant="outlined" margin="normal" label={'Catchment'} fullWidth className={classes.customfield} value={catchment} name="profile[channel][audience][catchment]" error={errors.catchment?.type === 'required'} inputRef={register()} onChange={(e) => setCatchment(e.target.value)} placeholder={'Catchment'} />}
-
                                         {/radio/.test(channel) && <TextField variant="outlined" margin="normal" label={'Listeners'} fullWidth className={classes.customfield} value={listeners} name="profile[channel][audience][listeners]" error={errors.listeners?.type === 'required'} inputRef={register()} onChange={(e) => setListeners(e.target.value)} placeholder={'Listeners'} />}
                                         {/print/.test(channel) && <TextField variant="outlined" margin="normal" label={'Readership'} fullWidth className={classes.customfield} value={readership} name="profile[channel][audience][readership]" error={errors.readership?.type === 'required'} inputRef={register()} onChange={(e) => setReadership(e.target.value)} placeholder={'Readership'} />}
                                         {/digital/.test(channel) && <TextField variant="outlined" margin="normal" label={'Impressions'} fullWidth className={classes.customfield} value={impressions} name="profile[channel][audience][impressions]" error={errors.impressions?.type === 'required'} inputRef={register()} onChange={(e) => setImpressions(e.target.value)} placeholder={'Impressions'} />}
                                         {/digital/.test(channel) && <TextField variant="outlined" margin="normal" label={'Browsers'} fullWidth className={classes.customfield} value={browsers} name="profile[channel][audience][browsers]" error={errors.browsers?.type === 'required'} inputRef={register()} onChange={(e) => setBrowsers(e.target.value)} placeholder={'Browsers'} />}
                                         {/ooh/.test(channel) && <TextField variant="outlined" margin="normal" label={'Visibilty'} fullWidth className={classes.customfield} value={visibilty} name="profile[channel][audience][visibilty]" error={errors.visibilty?.type === 'required'} inputRef={register()} onChange={(e) => setVisibilty(e.target.value)} placeholder={'Visibilty'} />}
                                         {/social/.test(channel) && <TextField variant="outlined" margin="normal" label={'Engagement'} fullWidth className={classes.customfield} value={engagement} name="profile[channel][audience][engagement]" error={errors.engagement?.type === 'required'} inputRef={register()} onChange={(e) => setEngagement(e.target.value)} placeholder={'engagement'} />}
-
                                     </Grid>
                                     <Grid style={{ textAlign: 'center' }} item md={3} sm={6} xs={12}>
                                         <h2 className={classes.formTitle}>Cover / Thumb</h2>
@@ -394,8 +396,12 @@ const CreateMedia = () => {
             {
                 activeStep === 1 &&
                 <div>
-                    <AddPersona />
+                    <AddPersona goToPersonaOverview={goToPersonaOverview} />
                 </div>
+            }
+            {
+                activeStep === 2 &&
+                <PersonaOverview />
             }
         </div >
     );
