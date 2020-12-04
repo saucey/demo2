@@ -21,6 +21,8 @@ import clsx from 'clsx'
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import Grid from '@material-ui/core/Grid';
+import { useSelector } from 'react-redux'
+import Button from '@material-ui/core/Button'
 
 const drawerWidth = 240;
 
@@ -60,6 +62,14 @@ const useStyles = makeStyles((theme) => ({
     },
     content: {
     },
+    logoutBtn: {
+        background: '#e96941',
+        fontWeight: '400',
+        color: 'white',
+        marginLeft: 'auto',
+        paddingLeft: '20px',
+        paddingRight: '20px'
+    }
 }));
 
 const MainLayout = WrappedComponent => {
@@ -68,6 +78,8 @@ const MainLayout = WrappedComponent => {
         const classes = useStyles();
         const theme = useTheme();
         const [mobileOpen, setMobileOpen] = React.useState(false);
+
+        const loggedInSession = useSelector((state) => state.loggedInSession);
 
         const handleDrawerToggle = () => {
             setMobileOpen(!mobileOpen);
@@ -89,6 +101,7 @@ const MainLayout = WrappedComponent => {
                         >
                             <MenuIcon />
                         </IconButton>
+                        {loggedInSession && <Button className={classes.logoutBtn}>Logout</Button>}
                     </Toolbar>
                 </AppBar>
                 <nav className={classes.drawer} aria-label="mailbox folders" style={{ background: 'red' }}>
