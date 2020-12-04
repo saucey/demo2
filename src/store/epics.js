@@ -2,13 +2,13 @@ import { combineEpics } from 'redux-observable';
 import { ofType } from 'redux-observable';
 import { map, catchError, switchMap, mergeMap } from 'rxjs/operators';
 import { from, of, Observable } from 'rxjs';
-import { getLogin, getRegister, postMediaCreate } from '../api/mediaRegisteredApi'
+import { loginApi, registerApi, createApi } from '../services/api/media-owner';
 
 const login = action$ => action$.pipe(
     ofType('LOGIN'),
     switchMap(
         action =>
-            from(getLogin(action.login)).pipe(
+            from(loginApi(action.login)).pipe(
                 map(response => {
                     const redirect = ((role) => {
                         switch (role) {
@@ -30,7 +30,7 @@ const login = action$ => action$.pipe(
                     }
                 }),
                 catchError(error => {
-                    return of({ type: 'ERROR', error: error.response.data.error })
+                    return of({ type: 'ERROR',  error  })
                 })
             )
     )
@@ -40,7 +40,7 @@ const regitser = action$ => action$.pipe(
     ofType('REGISTER'),
     switchMap(
         action =>
-            from(getRegister(action.register)).pipe(
+            from(registerApi(action.register)).pipe(
                 map(response => {
                     const redirect = ((role) => {
                         switch (role) {
@@ -62,7 +62,7 @@ const regitser = action$ => action$.pipe(
                     }
                 }),
                 catchError(error => {
-                    return of({ type: 'ERROR', error: error.response.data.error })
+                    return of({ type: 'ERROR', error })
                 })
             )
     )
@@ -73,7 +73,7 @@ const createMedia = action$ => action$.pipe(
     ofType('SEND_MEDIA_API'),
     mergeMap(
         action =>
-            from(postMediaCreate(action.createMediaMap)).pipe(
+            from(createApi(action.createMediaMap)).pipe(
                 map(response => {
                     console.log(response, 'response')
                     return action.createMediaMap;
