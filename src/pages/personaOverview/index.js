@@ -15,12 +15,15 @@ import { useForm } from 'react-hook-form'
 import PersonPinIcon from '@material-ui/icons/PersonPin';
 import { useSelector } from 'react-redux'
 
+import AddPersona from '../addPersona/index'
+import { useDispatch } from 'react-redux'
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
     },
-    addActionBtn: {
+    addActionBtn1: {
         fontWeight: 'bold',
         color: 'white',
         backgroundColor: '#0e82f4',
@@ -28,13 +31,26 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: 'white',
             color: '#0e82f4',
         }
-    }
+    },
+    addActionBtn: {
+        padding: '10px',
+        paddingRight: '20px',
+        backgroundColor: "#136cc3",
+        color: 'white',
+        fontWeight: 'bold',
+        borderRadius: '23px',
+        textTransform: "none",
+        '&:hover': {
+            background: "#136cc3",
+        }
+    },
 }));
 
-export default function PersonaOverview() {
+export default function PersonaOverview({ setCreatePersona }) {
 
     const searchInput = useRef(null);
     const inputRef = useRef([]);
+    const dispatch = useDispatch()
 
     const classes = useStyles();
 
@@ -43,8 +59,6 @@ export default function PersonaOverview() {
 
     const currentCreateMedia = [createMedia]
 
-    console.log(currentCreateMedia, 'currentCreateMedia');
-
     useEffect(() => {
     }, [])
 
@@ -52,29 +66,48 @@ export default function PersonaOverview() {
         console.log(event, 'the event')
     };
 
+    const goToCreatePersona = () => {
+        dispatch({
+            type: 'SET_CREATED_PERSONA',
+            setCreatePersona: true,
+        })
+    }
+
     return (
         <div className={classes.root}>
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <Grid container spacing={3}>
-                        <Grid item md={3} sm={3} xs={3}>
-                            {currentCreateMedia.map((val, index) => (
-                                <Paper key={index}>
-                                    <div style={{ textAlign: 'center', padding: '40px 0px' }}>
-                                        <div>
-                                            <PersonPinIcon style={{ fontSize: '12em' }} />
+
+            {setCreatePersona ? <AddPersona /> :
+                <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                        <Grid container spacing={3}>
+                            <Grid item md={3} sm={3} xs={3}>
+                                <Button onClick={() => goToCreatePersona()} className={classes.addActionBtn} variant="outlined" color="primary">
+                                    <AddCircleOutlineIcon style={{ marginRight: '10px', color: '#a2e60f' }} />
+                                    Create Persona
+                            </Button>
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={3}>
+                            <Grid item md={3} sm={3} xs={3}>
+                                {currentCreateMedia.length > 0 && currentCreateMedia.map((val, index) => (
+                                    Object.keys(val.persona).length > 0 &&
+                                    <Paper key={index}>
+                                        <div style={{ textAlign: 'center', padding: '40px 0px' }}>
+                                            <div>
+                                                <PersonPinIcon style={{ fontSize: '12em' }} />
+                                            </div>
+                                            <span style={{ color: '#0e82f4', fontSize: '1.2em', display: 'block', fontWeight: 'bold', marginBottom: '20px' }}>{val.persona.about.name}</span>
+                                            <Button className={classes.addActionBtn1} variant="outlined">
+                                                Show Persona
+                                            </Button>
                                         </div>
-                                        <span style={{ color: '#0e82f4', fontSize: '1.2em', display: 'block', fontWeight: 'bold', marginBottom: '20px' }}>{val.persona.about.name}</span>
-                                        <Button className={classes.addActionBtn} variant="outlined">
-                                            Show Persona
-                                    </Button>
-                                    </div>
-                                </Paper>
-                            ))}
+                                    </Paper>
+                                ))}
+                            </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
-            </Grid>
+                </Grid>}
+
         </div>
     );
 }

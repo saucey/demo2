@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
 		}
 	},
 
-
 	tabWrapper: {
 		display: 'flex',
 		justifyContent: 'space-between',

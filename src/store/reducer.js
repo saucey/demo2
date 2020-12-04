@@ -3,7 +3,8 @@ const initState = {
   loggedInSession: null,
   error: null,
   createMedia: null,
-  personaSaved: false
+  personaSaved: false,
+  setCreatePersona: false
 }
 
 const Reducer = (state = initState, action) => {
@@ -31,6 +32,11 @@ const Reducer = (state = initState, action) => {
       return {
         ...state,
         personaSaved: action.personaSaved
+      }
+    case 'SET_CREATED_PERSONA':
+      return {
+        ...state,
+        setCreatePersona: action.setCreatePersona
       }
     // you can have as many case statements as you need
     default:

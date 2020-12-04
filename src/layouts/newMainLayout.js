@@ -18,11 +18,11 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import clsx from 'clsx'
-import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import Grid from '@material-ui/core/Grid';
 import { useSelector } from 'react-redux'
 import Button from '@material-ui/core/Button'
+import { useHistory } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -78,11 +78,16 @@ const MainLayout = WrappedComponent => {
         const classes = useStyles();
         const theme = useTheme();
         const [mobileOpen, setMobileOpen] = React.useState(false);
-
+        const history = useHistory();
+        const dispatch = useDispatch();
         const loggedInSession = useSelector((state) => state.loggedInSession);
 
         const handleDrawerToggle = () => {
             setMobileOpen(!mobileOpen);
+        };
+
+        const logout = () => {
+            history.push('/');
         };
 
         const container = window !== undefined ? () => window().document.body : undefined;
@@ -101,7 +106,7 @@ const MainLayout = WrappedComponent => {
                         >
                             <MenuIcon />
                         </IconButton>
-                        {loggedInSession && <Button className={classes.logoutBtn}>Logout</Button>}
+                        {loggedInSession && <Button onClick={logout} className={classes.logoutBtn}>Logout</Button>}
                     </Toolbar>
                 </AppBar>
                 <nav className={classes.drawer} aria-label="mailbox folders" style={{ background: 'red' }}>

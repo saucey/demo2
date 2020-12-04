@@ -51,15 +51,11 @@ const ColorlibConnector = withStyles({
     active: {
         '& $line': {
             backgroundColor: '#0e82f4'
-            // backgroundImage:
-            // 'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
         },
     },
     completed: {
         '& $line': {
             backgroundColor: '#0e82f4'
-            // backgroundImage:
-            // 'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
         },
     },
     line: {
@@ -229,11 +225,9 @@ const CreateMedia = () => {
     const [channel, setChannel] = useState('radio')
     const [name, setName] = useState('')
     const [frequency, setFrequency] = useState('')
-
     const [circulation, setCirculation] = useState('')
     const [viewer, setViewer] = useState('')
     const [catchment, setCatchment] = useState('')
-
     const [listeners, setListeners] = useState('')
     const [readership, setReadership] = useState('')
     const [impressions, setImpressions] = useState('')
@@ -242,15 +236,12 @@ const CreateMedia = () => {
     const [engagement, setEngagement] = useState('')
 
     const personaSaved = useSelector((state) => state.personaSaved);
+    const setCreatePersona = useSelector((state) => state.setCreatePersona);
 
     const classes = useStyles();
 
-
     useEffect(() => {
-        if (personaSaved) {
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        }
-    }, [channel, personaSaved])
+    }, [channel, personaSaved, setCreatePersona])
 
 
     const selectImg = () => {
@@ -288,9 +279,7 @@ const CreateMedia = () => {
                     <Grid item xs={12}>
                         <form
                             className={classes.form}
-                            // ref={useRef()  }
-                            onSubmit={handleSubmit(onSubmit)}
-                        >
+                            onSubmit={handleSubmit(onSubmit)}>
                             <Paper className={classes.paper}>
                                 <h1 className={classes.pageTitle}>Create Media</h1>
                                 <Grid container spacing={3}>
@@ -304,8 +293,7 @@ const CreateMedia = () => {
                                                     <RadioGroup
                                                         aria-label="channel"
                                                         value={channel}
-                                                        onChange={e => setChannel(e.target.value)}
-                                                    >
+                                                        onChange={e => setChannel(e.target.value)}>
                                                         <FormControlLabel value="television" control={<Radio />} label="Television" />
                                                         <FormControlLabel value="radio" control={<Radio />} label="Radio" />
                                                         <FormControlLabel value="print" control={<Radio />} label="Print" />
@@ -391,13 +379,11 @@ const CreateMedia = () => {
                 </Grid>}
             {
                 activeStep === 1 &&
-                <div>
-                    <AddPersona />
-                </div>
+                <PersonaOverview setCreatePersona={setCreatePersona} />
             }
             {
                 activeStep === 2 &&
-                <PersonaOverview />
+                <AddPersona />
             }
         </div >
     );
