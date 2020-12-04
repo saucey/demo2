@@ -1,8 +1,7 @@
-import { combineEpics } from 'redux-observable';
 import { ofType } from 'redux-observable';
-import { map, catchError, switchMap, mergeMap } from 'rxjs/operators';
-import { from, of, Observable } from 'rxjs';
-import { createApi } from '../services/api/media-owner';
+import { combineEpics } from 'redux-observable';
+import { from, of } from 'rxjs';
+import { map, catchError, switchMap } from 'rxjs/operators';
 import { loginApi, registerApi } from '../services/api/user';
 
 const login = action$ => action$.pipe(
@@ -69,34 +68,6 @@ const regitser = action$ => action$.pipe(
     )
 );
 
-
-const createMedia = action$ => action$.pipe(
-    ofType('SEND_MEDIA_API'),
-    mergeMap(
-        action =>
-            from(createApi(action.createMediaMap)).pipe(
-                map(response => {
-                    console.log(response, 'response')
-                    return action.createMediaMap;
-                }),
-                switchMap((createMediaMap) => [
-                    {
-                        type: 'SEND_MEDIA_CREATE',
-                        createMedia: createMediaMap
-                    },
-                    {
-                        type: 'PERSONA_SAVED',
-                        personaSaved: true
-                    }
-                ]),
-                catchError(error => {
-                    return of({ type: 'ERROR', error: error.response.data.error })
-                })
-            )
-    )
-);
-
-
-export const rootEpic = combineEpics(
-    login, regitser, createMedia
+export const userEpic = combineEpics(
+    login, regitser
 );
