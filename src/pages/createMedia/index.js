@@ -42,7 +42,7 @@ import clsx from 'clsx';
 import AddPersona from '../addPersona/index'
 import PersonaOverview from '../personaOverview/index'
 import { useDispatch } from 'react-redux'
-import MainLayout from '../../layouts/mainLayout'
+import MainLayout from '../../layouts/newMainLayout'
 
 const ColorlibConnector = withStyles({
     alternativeLabel: {
@@ -157,9 +157,6 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: '5px',
         '& .MuiInputLabel-root.Mui-shrink': {
             color: 'red'
-            // "& .Mui-shrink": {
-            // 	color: 'red'
-            // },
         },
         '&:hover': {
             backgroundColor: '#fff',
@@ -213,7 +210,6 @@ const useStyles = makeStyles((theme) => ({
         padding: '5px 40px'
     },
     radioControl: {
-        // border: '1px solid red'
     },
     checkNRadio: {
         '& .MuiFormLabel-root': {
@@ -279,7 +275,7 @@ const CreateMedia = () => {
     }
 
     return (
-        <div className={classes.root}>
+        <div>
             <Stepper className={classes.stepperWrapper} alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
                 {steps.map((label) => (
                     <Step key={label}>
@@ -396,7 +392,7 @@ const CreateMedia = () => {
             {
                 activeStep === 1 &&
                 <div>
-                    <AddPersona goToPersonaOverview={goToPersonaOverview} />
+                    <AddPersona />
                 </div>
             }
             {

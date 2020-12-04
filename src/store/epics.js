@@ -31,7 +31,7 @@ const login = action$ => action$.pipe(
                     }
                 }),
                 catchError(error => {
-                    return of({ type: 'ERROR',  error  })
+                    return of({ type: 'ERROR', error })
                 })
             )
     )

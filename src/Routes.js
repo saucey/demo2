@@ -7,10 +7,12 @@ import MediaOwner from './pages/mediaOwner/index'
 import Admin from './pages/admin/index'
 import AddPersona from './pages/addPersona/index'
 import PersonaOverview from './pages/personaOverview/index'
+import ResponsiveDrawer from './layouts/newMainLayout'
 
 export default () => (
   <BrowserRouter>
     <Switch>
+      <Route path="/nav" exact component={ResponsiveDrawer} />
       <Route path="/admin" exact component={Admin} />
       <Route path="/add-persona" exact component={AddPersona} />
       <Route path="/persona-overview" exact component={PersonaOverview} />

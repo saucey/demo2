@@ -37,7 +37,7 @@ export default function PersonaOverview() {
     const inputRef = useRef([]);
 
     const classes = useStyles();
-    const [email, setEmail] = useState([]);
+
     const { control, register, handleSubmit, errors } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
     const createMedia = useSelector((state) => state.createMedia);
 

@@ -141,7 +141,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function addPersona({ goToPersonaOverview }) {
+export default function addPersona() {
     const { register, handleSubmit, errors, control } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
 
     const [value, setValue] = useState('female');
@@ -201,8 +201,6 @@ export default function addPersona({ goToPersonaOverview }) {
             type: 'SEND_MEDIA_API',
             createMediaMap
         })
-
-        // goToPersonaOverview()
     }
 
     return (
