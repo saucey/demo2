@@ -17,6 +17,9 @@ import { useSelector } from 'react-redux'
 
 import AddPersona from '../addPersona/index'
 import { useDispatch } from 'react-redux'
+import StarBorderRoundedIcon from '@material-ui/icons/StarBorderRounded';
+import StarRoundedIcon from '@material-ui/icons/StarRounded';
+import IconButton from '@material-ui/core/IconButton'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -56,6 +59,7 @@ export default function PersonaOverview({ setCreatePersona }) {
 
     const { control, register, handleSubmit, errors } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
     const createMedia = useSelector((state) => state.createMedia);
+    const [selected, setSelected] = useState('')
 
     const currentCreateMedia = [createMedia]
 
@@ -71,6 +75,10 @@ export default function PersonaOverview({ setCreatePersona }) {
             type: 'SET_CREATED_PERSONA',
             setCreatePersona: true,
         })
+    }
+
+    const toggleSelectPersona = () => {
+        setSelected(!selected)
     }
 
     return (
@@ -92,7 +100,18 @@ export default function PersonaOverview({ setCreatePersona }) {
                                 {currentCreateMedia.length > 0 && currentCreateMedia.map((val, index) => (
                                     Object.keys(val.persona).length > 0 &&
                                     <Paper key={index}>
-                                        <div style={{ textAlign: 'center', padding: '40px 0px' }}>
+                                        <div style={{ textAlign: 'center', padding: '40px 0px', position: 'relative' }}>
+                                            <IconButton style={{
+                                                position: 'absolute',
+                                                top: '-10px',
+                                                right: '-10px',
+                                            }}
+                                                onClick={toggleSelectPersona}
+                                                aria-label="open drawer">
+
+                                                {selected ? <StarRoundedIcon style={{ fontSize: '1.5em', color: '#e96941' }} /> :
+                                                    <StarBorderRoundedIcon style={{ fontSize: '1.5em', color: 'rgb(233 231 238)' }} />}
+                                            </IconButton>
                                             <div>
                                                 <PersonPinIcon style={{ fontSize: '12em' }} />
                                             </div>
