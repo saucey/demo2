@@ -251,6 +251,7 @@ const CreateMedia = () => {
     const onSubmit = createMedia => {
 
         createMedia.profile.channel.name = channel
+
         createMedia.persona = {}
 
         dispatch({

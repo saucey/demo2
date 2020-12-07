@@ -63,6 +63,33 @@ export default function PersonaOverview({ setCreatePersona }) {
 
     const currentCreateMedia = [createMedia]
 
+    const currentCreateMediaTest = [
+        {
+            persona: {
+                id: 1,
+                about: {
+                    name: 'Mag1'
+                }
+            }
+        },
+        {
+            persona: {
+                id: 2,
+                about: {
+                    name: 'Mag2'
+                }
+            }
+        },
+        {
+            persona: {
+                id: 3,
+                about: {
+                    name: 'Mag3'
+                }
+            }
+        }
+    ]
+
     useEffect(() => {
     }, [])
 
@@ -96,9 +123,9 @@ export default function PersonaOverview({ setCreatePersona }) {
                             </Grid>
                         </Grid>
                         <Grid container spacing={3}>
-                            <Grid item md={3} sm={3} xs={3}>
-                                {currentCreateMedia.length > 0 && currentCreateMedia.map((val, index) => (
-                                    Object.keys(val.persona).length > 0 &&
+                            {currentCreateMediaTest.length > 0 && currentCreateMediaTest.map((val, index) => (
+                                Object.keys(val.persona).length > 0 &&
+                                <Grid item md={3} sm={3} xs={3}>
                                     <Paper key={index}>
                                         <div style={{ textAlign: 'center', padding: '40px 0px', position: 'relative' }}>
                                             <IconButton style={{
@@ -106,7 +133,7 @@ export default function PersonaOverview({ setCreatePersona }) {
                                                 top: '-10px',
                                                 right: '-10px',
                                             }}
-                                                onClick={toggleSelectPersona}
+                                                onClick={toggleSelectPersona()}
                                                 aria-label="open drawer">
 
                                                 {selected ? <StarRoundedIcon style={{ fontSize: '1.5em', color: '#e96941' }} /> :
@@ -121,8 +148,8 @@ export default function PersonaOverview({ setCreatePersona }) {
                                             </Button>
                                         </div>
                                     </Paper>
-                                ))}
-                            </Grid>
+                                </Grid>
+                            ))}
                         </Grid>
                     </Grid>
                 </Grid>}

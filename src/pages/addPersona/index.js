@@ -195,6 +195,7 @@ export default function addPersona() {
     }, [createMedia])
 
     const onSubmit = persona => {
+
         const createMediaMap = { ...createMedia, persona: persona.persona }
 
         dispatch({
