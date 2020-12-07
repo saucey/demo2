@@ -80,7 +80,7 @@ const MediaOwner = () => {
     }, [])
 
     const createMedia = () => {
-        history.push('/create-media');
+        history.push('/media-owner/about');
     };
 
     return (

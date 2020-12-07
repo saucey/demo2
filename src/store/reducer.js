@@ -28,6 +28,12 @@ const Reducer = (state = initState, action) => {
         ...state,
         createMedia: action.createMedia
       }
+    case 'ADD_INVENTORY':
+      return {
+        ...state,
+        createMedia: action.createMedia
+      }
+
     case 'PERSONA_SAVED':
       return {
         ...state,

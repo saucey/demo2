@@ -20,7 +20,9 @@ import { useDispatch } from 'react-redux'
 import StarBorderRoundedIcon from '@material-ui/icons/StarBorderRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
 import IconButton from '@material-ui/core/IconButton'
-
+import MainLayout from '../../layouts/newMainLayout'
+import StepWrapper from './stepWrapper'
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -58,11 +60,12 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function PersonaOverview({ setCreatePersona }) {
+const Personas = () => {
 
     const searchInput = useRef(null);
     const inputRef = useRef([]);
     const dispatch = useDispatch()
+    const history = useHistory()
 
     const classes = useStyles();
 
@@ -113,11 +116,12 @@ export default function PersonaOverview({ setCreatePersona }) {
         console.log(event, 'the event')
     };
 
-    const goToCreatePersona = () => {
-        dispatch({
-            type: 'SET_CREATED_PERSONA',
-            setCreatePersona: true,
-        })
+    const goToAddPersona = () => {
+        history.push('/media-owner/personas/add');
+    }
+
+    const goToAddInventory = () => {
+        history.push('/media-owner/inventory');
     }
 
     const toggleSelectPersona = (id) => {
@@ -137,60 +141,52 @@ export default function PersonaOverview({ setCreatePersona }) {
 
     }
 
-    const goToAddInventory = () => {
-        dispatch({
-            type: 'GOTO_ADD_INVENTORY',
-            setCreatePersona: true,
-        })
-    }
-
     return (
-        <div className={classes.root}>
-
-            {setCreatePersona ? <AddPersona /> :
-                <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                        <Grid container spacing={3}>
-                            <Grid item md={3} sm={3} xs={3}>
-                                <Button onClick={() => goToCreatePersona()} className={classes.addActionBtn} variant="outlined" color="primary">
-                                    <AddCircleOutlineIcon style={{ marginRight: '10px', color: '#a2e60f' }} />
+        <div>
+            <StepWrapper step={1} />
+            <Grid container spacing={3}>
+                <Grid item xs={12}>
+                    <Grid container spacing={3}>
+                        <Grid item md={3} sm={3} xs={3}>
+                            <Button onClick={() => goToAddPersona()} className={classes.addActionBtn} variant="outlined" color="primary">
+                                <AddCircleOutlineIcon style={{ marginRight: '10px', color: '#a2e60f' }} />
                                     Create Persona
                             </Button>
-                            </Grid>
                         </Grid>
-                        <Grid container spacing={3}>
-                            {currentCreateMediaTest.length > 0 && currentCreateMediaTest.map((val, index) => (
-                                Object.keys(val.persona).length > 0 &&
-                                <Grid key={index} item md={3} sm={3} xs={3}>
-                                    <Paper>
-                                        <div style={{ textAlign: 'center', padding: '40px 0px', position: 'relative' }}>
-                                            <IconButton style={{
-                                                position: 'absolute',
-                                                top: '-10px',
-                                                right: '-10px',
-                                            }}
-                                                onClick={() => toggleSelectPersona(val.persona.id)}
-                                                aria-label="open drawer">
-
-                                                {val.persona.selected ? <StarRoundedIcon style={{ fontSize: '1.5em', color: '#e96941' }} /> :
-                                                    <StarBorderRoundedIcon style={{ fontSize: '1.5em', color: 'rgb(233 231 238)' }} />}
-                                            </IconButton>
-                                            <div>
-                                                <PersonPinIcon style={{ fontSize: '12em' }} />
-                                            </div>
-                                            <span style={{ color: '#0e82f4', fontSize: '1.2em', display: 'block', fontWeight: 'bold', marginBottom: '20px' }}>{val.persona.about.name}</span>
-                                            <Button className={classes.addActionBtn1} variant="outlined">
-                                                Show Persona
-                                            </Button>
-                                        </div>
-                                    </Paper>
-                                </Grid>
-                            ))}
-                        </Grid>
-                        {personaInventories.length > 0 && <Button onClick={goToAddInventory} className={classes.nextButton} type="submit">Next</Button>}
                     </Grid>
-                </Grid>}
+                    <Grid container spacing={3}>
+                        {currentCreateMediaTest.length > 0 && currentCreateMediaTest.map((val, index) => (
+                            Object.keys(val.persona).length > 0 &&
+                            <Grid key={index} item md={3} sm={3} xs={3}>
+                                <Paper>
+                                    <div style={{ textAlign: 'center', padding: '40px 0px', position: 'relative' }}>
+                                        <IconButton style={{
+                                            position: 'absolute',
+                                            top: '-10px',
+                                            right: '-10px',
+                                        }}
+                                            onClick={() => toggleSelectPersona(val.persona.id)}
+                                            aria-label="open drawer">
 
+                                            {val.persona.selected ? <StarRoundedIcon style={{ fontSize: '1.5em', color: '#e96941' }} /> :
+                                                <StarBorderRoundedIcon style={{ fontSize: '1.5em', color: 'rgb(233 231 238)' }} />}
+                                        </IconButton>
+                                        <div>
+                                            <PersonPinIcon style={{ fontSize: '12em' }} />
+                                        </div>
+                                        <span style={{ color: '#0e82f4', fontSize: '1.2em', display: 'block', fontWeight: 'bold', marginBottom: '20px' }}>{val.persona.about.name}</span>
+                                        <Button className={classes.addActionBtn1} variant="outlined">
+                                            Show Persona
+                                            </Button>
+                                    </div>
+                                </Paper>
+                            </Grid>
+                        ))}
+                    </Grid>
+                    {personaInventories.length > 0 && <Button onClick={goToAddInventory} className={classes.nextButton} type="submit">Next</Button>}
+                </Grid>
+            </Grid>
         </div>
     );
 }
+export default MainLayout(Personas)

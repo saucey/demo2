@@ -72,82 +72,79 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const MainLayout = WrappedComponent => {
-    const NewComponent = props => {
-        const { window } = props;
-        const classes = useStyles();
-        const theme = useTheme();
-        const [mobileOpen, setMobileOpen] = React.useState(false);
-        const history = useHistory();
-        const dispatch = useDispatch();
-        const loggedInSession = useSelector((state) => state.loggedInSession);
+const MainLayout = WrappedComponent => props => {
+    const { window } = props;
+    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const theme = useTheme();
+    const history = useHistory();
+    const dispatch = useDispatch();
+    const loggedInSession = useSelector((state) => state.loggedInSession);
+    const classes = useStyles();
 
-        const handleDrawerToggle = () => {
-            setMobileOpen(!mobileOpen);
-        };
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
 
-        const logout = () => {
-            history.push('/');
-        };
+    const logout = () => {
+        history.push('/');
+    };
 
-        const container = window !== undefined ? () => window().document.body : undefined;
+    const container = window !== undefined ? () => window().document.body : undefined;
 
-        return (
-            <div className={classes.root}>
-                <CssBaseline />
-                <AppBar position="fixed" className={classes.appBar}>
-                    <Toolbar>
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            edge="start"
-                            onClick={handleDrawerToggle}
-                            className={classes.menuButton}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        {loggedInSession && <Button onClick={logout} className={classes.logoutBtn}>Logout</Button>}
-                    </Toolbar>
-                </AppBar>
-                <nav className={classes.drawer} aria-label="mailbox folders" style={{ background: 'red' }}>
-                    {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-                    <Hidden smUp implementation="css" style={{ background: 'red' }}>
-                        <Drawer
-                            container={container}
-                            variant="temporary"
-                            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                            open={mobileOpen}
-                            onClose={handleDrawerToggle}
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                            ModalProps={{
-                                keepMounted: true, // Better open performance on mobile.
-                            }}
-                        >
-                        </Drawer>
-                    </Hidden>
-                    <Hidden xsDown implementation="css" style={{ background: 'red' }}>
-                        <Drawer
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                            variant="permanent"
-                            open
-                        >
-                        </Drawer>
-                    </Hidden>
-                </nav>
-                <div className={classes.toolbar} />
-                <Grid spacing={0} style={{ width: '100%', padding: '60px 30px' }}>
-                    <Grid item md={12}>
-                        <WrappedComponent {...props} />
-                    </Grid>
+    return (
+        <div className={classes.root}>
+            <CssBaseline />
+            <AppBar position="fixed" className={classes.appBar}>
+                <Toolbar>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="start"
+                        onClick={handleDrawerToggle}
+                        className={classes.menuButton}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    {loggedInSession && <Button onClick={logout} className={classes.logoutBtn}>Logout</Button>}
+                </Toolbar>
+            </AppBar>
+            <nav className={classes.drawer} aria-label="mailbox folders" style={{ background: 'red' }}>
+                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+                <Hidden smUp implementation="css" style={{ background: 'red' }}>
+                    <Drawer
+                        container={container}
+                        variant="temporary"
+                        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                        open={mobileOpen}
+                        onClose={handleDrawerToggle}
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        ModalProps={{
+                            keepMounted: true, // Better open performance on mobile.
+                        }}
+                    >
+                    </Drawer>
+                </Hidden>
+                <Hidden xsDown implementation="css" style={{ background: 'red' }}>
+                    <Drawer
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        variant="permanent"
+                        open
+                    >
+                    </Drawer>
+                </Hidden>
+            </nav>
+            <div className={classes.toolbar} />
+            <Grid spacing={0} style={{ width: '100%', padding: '60px 30px' }}>
+                <Grid item md={12}>
+                    <WrappedComponent {...props} />
                 </Grid>
-            </div>
-        );
-    }
-    return NewComponent
+            </Grid>
+        </div>
+    );
 }
 
 export default MainLayout;
