@@ -8,7 +8,7 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 import Reducer from './store/reducer'
 import { createEpicMiddleware } from 'redux-observable'
-import {rootEpic} from './store/epics'
+import { rootEpic } from './epics'
 
 const observableMiddleware = createEpicMiddleware();
 const store = createStore(Reducer, applyMiddleware(observableMiddleware))
