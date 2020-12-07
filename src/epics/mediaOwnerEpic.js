@@ -21,6 +21,10 @@ const createMedia = action$ => action$.pipe(
                     {
                         type: 'PERSONA_SAVED',
                         personaSaved: true
+                    },
+                    {
+                        type: 'SET_CREATED_PERSONA',
+                        setCreatePersona: false
                     }
                 ]),
                 catchError(error => {

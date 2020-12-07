@@ -133,7 +133,7 @@ export default function PersonaOverview({ setCreatePersona }) {
                                                 top: '-10px',
                                                 right: '-10px',
                                             }}
-                                                onClick={toggleSelectPersona()}
+                                                onClick={() => toggleSelectPersona()}
                                                 aria-label="open drawer">
 
                                                 {selected ? <StarRoundedIcon style={{ fontSize: '1.5em', color: '#e96941' }} /> :
