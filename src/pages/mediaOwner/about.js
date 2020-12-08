@@ -39,8 +39,6 @@ import VideoLabelIcon from '@material-ui/icons/VideoLabel';
 import clsx from 'clsx';
 
 //Add Persona
-import AddPersona from '../addPersona/index'
-import PersonaOverview from '../personaOverview/index'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom';
 import MainLayout from '../../layouts/newMainLayout'
@@ -260,18 +258,6 @@ const About = () => {
         })
 
         history.push('/media-owner/personas');
-
-        const payload = {
-            "mediaOwner": {
-                "profile": {
-
-                },
-                "personasLinked": ["pers_o85p9iePaYF6Lds92", 2],
-                "inventory": { "name": "television", "values": { "a": "a one", "b": "b two" } }
-
-            }
-        }
-
     }
 
     return (

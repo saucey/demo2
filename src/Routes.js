@@ -1,17 +1,13 @@
 import React from 'react'
 import { Route, Switch, BrowserRouter } from 'react-router-dom'
 import MediaLogin from './pages/signup/mediaLogin'
-import CreateMedia from './pages/createMedia/index'
-import MediaPlanner from './pages/mediaPlanner/index'
+
 import MediaOwner from './pages/mediaOwner/index'
 import About from './pages/mediaOwner/about'
 import Personas from './pages/mediaOwner/personas'
 import PersonasAdd from './pages/mediaOwner/personasAdd'
 import Inventory from './pages/mediaOwner/inventory'
-import Admin from './pages/admin/index'
-import AddPersona from './pages/addPersona/index'
-import PersonaOverview from './pages/personaOverview/index'
-import ResponsiveDrawer from './layouts/newMainLayout'
+import Confirmation from './pages/mediaOwner/confirmation'
 
 export default () => (
   <BrowserRouter>
@@ -32,6 +28,7 @@ export default () => (
       <Route path="/media-owner/personas" exact component={Personas} />
       <Route path="/media-owner/personas/add" exact component={PersonasAdd} />
       <Route path="/media-owner/inventory" exact component={Inventory} />
+      <Route path="/media-owner/confirmation" exact component={Confirmation} />
     </Switch>
   </BrowserRouter>
 )

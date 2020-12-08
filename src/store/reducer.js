@@ -6,7 +6,8 @@ const initState = {
   mediaOwner: {},
   personaSaved: false,
   personas: [],
-  personaSuccess: null
+  personaSuccess: null,
+  inventorySaved: null
 }
 
 const Reducer = (state = initState, action) => {
@@ -35,10 +36,10 @@ const Reducer = (state = initState, action) => {
         ...state,
         mediaOwner: action.mediaOwner
       }
-    case 'ADD_INVENTORY':
+    case 'INVENTORY_SAVED':
       return {
         ...state,
-        createMedia: action.createMedia
+        inventorySaved: action.inventorySaved
       }
     case 'SET_PERSONAS':
       return {

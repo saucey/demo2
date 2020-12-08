@@ -6,11 +6,20 @@ import Grid from '@material-ui/core/Grid';
 //Button
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper';
+//Icon
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import ControlPointTwoToneIcon from '@material-ui/icons/ControlPointTwoTone';
+
 //TextField
+import TextField from '@material-ui/core/TextField'
 import { useForm, Controller } from 'react-hook-form'
+import PersonPinIcon from '@material-ui/icons/PersonPin';
 import { useSelector } from 'react-redux'
 
 import { useDispatch } from 'react-redux'
+import StarBorderRoundedIcon from '@material-ui/icons/StarBorderRounded';
+import StarRoundedIcon from '@material-ui/icons/StarRounded';
+import IconButton from '@material-ui/core/IconButton'
 import MainLayout from '../../layouts/newMainLayout'
 import StepWrapper from './stepWrapper'
 import { useHistory } from 'react-router-dom';
@@ -330,110 +339,51 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const Inventory = () => {
+const Confirmation = () => {
 
     const location = useLocation();
+
+    const searchInput = useRef(null);
+    const inputRef = useRef([]);
     const dispatch = useDispatch()
     const history = useHistory()
 
     const classes = useStyles();
 
     const { control, register, handleSubmit, errors } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
-    const mediaOwner = useSelector((state) => state.mediaOwner);
-    const inventorySaved = useSelector((state) => state.inventorySaved);
-    const [channel, setChannel] = useState('')
-    const [inventoryList, setInventoryList] = useState([])
+    const state = useSelector((state) => state);
+
+    console.log(state, 'the state')
+
 
 
     useEffect(() => {
-        setCreateMediaCopy(mediaOwner)
-        setChannel(mediaOwner.profile.channel.name)
-        setInventory(mediaOwner.profile.channel.name)
-        if (inventorySaved) {
-            history.push('/media-owner/confirmation')
-        }
-    }, [mediaOwner, inventorySaved])
 
-    const onSubmit = (data) => {
-        data.inventory.name = channel;
-        const inventory = data.inventory;
-        mediaOwner.inventory = inventory
-        mediaOwner.personasLinked = location.state
-        const wrapper = {
-            mediaOwner
-        }
+    }, [state])
 
+
+    const handleChange = (event) => {
+        console.log(event, 'the event')
+    };
+
+    const onSubmit = () => {
         dispatch({
-            type: 'CREATE_INVENTORY',
-            mediaOwner: wrapper
+            type: 'CONFIRM_MEDIA_OWNER',
+            confirmMediaOwner: wrapper
         })
     }
 
-
-
-    const setInventory = (val) => {
-        switch (val) {
-            case 'television':
-                return setInventoryList(television)
-            case 'radio':
-                return setInventoryList(radio)
-            case 'print':
-                return setInventoryList(print)
-            case 'digital':
-                return setInventoryList(digital)
-            case 'ooh':
-                return setInventoryList(ooh)
-            case 'social':
-                return setInventoryList(social)
-            case 'partnership':
-                return setInventoryList(partnership)
-            // you can have as many case statements as you need
-            default:
-                return false
-        }
-    }
-
-
     return (
         <div>
-            <StepWrapper step={2} />
+            <StepWrapper step={3} />
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <Paper style={{ padding: '16px' }}>
-                        <h1 className={classes.pageTitle}>Inventory</h1>
-                        <form
-                            className={classes.form}
-                            onSubmit={handleSubmit(onSubmit)}>
-                            <FormControl component="fieldset" error={Boolean(errors.inventory && errors.inventory.value)} className={classes.checkNRadio}>
-                                <FormLabel component="legend">{channel}</FormLabel>
-                                {inventoryList.map(val => {
-                                    return (
-                                        <FormControlLabel
-                                            key={val.name}
-                                            label={val.value}
-                                            control={<Controller
-                                                name={`inventory[value][${val.name}]`}
-                                                control={control}
-                                                defaultValue={false}
-                                                // rules={{ required: true }}
-                                                render={props =>
-                                                    <Checkbox
-                                                        onChange={e => props.onChange(e.target.checked)}
-                                                        checked={props.value}
-                                                    />
-                                                } // props contains: onChange, onBlur and value
-                                            />}
-                                        >
-                                        </FormControlLabel>
-                                    )
-                                })}
-                            </FormControl>
-                            <Button className={classes.nextButton} type="submit">Next</Button>
-                        </form>
+                        <Button className={classes.nextButton} type="submit">Next</Button>
                     </Paper>
                 </Grid>
             </Grid>
         </div >
     );
 }
-export default MainLayout(Inventory);
+export default MainLayout(Confirmation);
