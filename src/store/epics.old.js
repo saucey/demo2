@@ -31,7 +31,7 @@ const login = action$ => action$.pipe(
                     }
                 }),
                 catchError(error => {
-                    return of({ type: 'ERROR',  error  })
+                    return of({ type: 'ERROR', error })
                 })
             )
     )
@@ -87,7 +87,7 @@ const createMedia = action$ => action$.pipe(
                     {
                         type: 'PERSONA_SAVED',
                         personaSaved: true
-                    }
+                    },
                 ]),
                 catchError(error => {
                     return of({ type: 'ERROR', error: error.response.data.error })

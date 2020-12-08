@@ -3,7 +3,10 @@ const initState = {
   loggedInSession: null,
   error: null,
   createMedia: null,
-  personaSaved: false
+  mediaOwner: {},
+  personaSaved: false,
+  personas: [],
+  personaSuccess: null
 }
 
 const Reducer = (state = initState, action) => {
@@ -27,6 +30,28 @@ const Reducer = (state = initState, action) => {
         ...state,
         createMedia: action.createMedia
       }
+    case 'CREATE_MEDIA_OWNER':
+      return {
+        ...state,
+        mediaOwner: action.mediaOwner
+      }
+    case 'ADD_INVENTORY':
+      return {
+        ...state,
+        createMedia: action.createMedia
+      }
+    case 'SET_PERSONAS':
+      return {
+        ...state,
+        personas: action.personas
+      }
+
+    case 'PERSONA_SUCCESS':
+      return {
+        ...state,
+        personaSuccess: action.personaSuccess
+      }
+
     case 'PERSONA_SAVED':
       return {
         ...state,

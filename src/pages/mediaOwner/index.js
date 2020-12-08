@@ -13,12 +13,11 @@ import ControlPointTwoToneIcon from '@material-ui/icons/ControlPointTwoTone';
 import TextField from '@material-ui/core/TextField'
 import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom';
-import MainLayout from '../../layouts/mainLayout'
+import MainLayout from '../../layouts/newMainLayout'
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        padding: '40px'
     },
     addActionBtn: {
         padding: '10px',
@@ -81,7 +80,7 @@ const MediaOwner = () => {
     }, [])
 
     const createMedia = () => {
-        history.push('/create-media');
+        history.push('/media-owner/about');
     };
 
     return (
