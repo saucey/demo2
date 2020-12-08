@@ -7,15 +7,10 @@ import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper';
 //Icon
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import ControlPointTwoToneIcon from '@material-ui/icons/ControlPointTwoTone';
-
-//TextField
-import TextField from '@material-ui/core/TextField'
 import { useForm } from 'react-hook-form'
 import PersonPinIcon from '@material-ui/icons/PersonPin';
 import { useSelector } from 'react-redux'
 
-import AddPersona from '../addPersona/index'
 import { useDispatch } from 'react-redux'
 import StarBorderRoundedIcon from '@material-ui/icons/StarBorderRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
@@ -23,6 +18,7 @@ import IconButton from '@material-ui/core/IconButton'
 import MainLayout from '../../layouts/newMainLayout'
 import StepWrapper from './stepWrapper'
 import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -61,23 +57,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Personas = () => {
+    const location = useLocation();
+    console.log(location, 'location')
 
-    const searchInput = useRef(null);
-    const inputRef = useRef([]);
     const dispatch = useDispatch()
     const history = useHistory()
 
     const classes = useStyles();
-
-    const { control, register, handleSubmit, errors } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
-    const createMedia = useSelector((state) => state.createMedia);
     const personas = useSelector((state) => state.personas);
     const personaSuccess = useSelector((state) => state.personaSuccess);
-    const [selected, setSelected] = useState('')
     const [personasList, setPersonasList] = useState([])
     const [personaInventories, setPersonaInventories] = useState([])
 
-    const currentCreateMedia = [createMedia]
 
     console.log(personas, 'personas!!')
     useEffect(() => {
@@ -92,11 +83,6 @@ const Personas = () => {
             type: 'GET_PERSONAS',
         })
     }
-
-
-    const handleChange = (event) => {
-        console.log(event, 'the event')
-    };
 
     const goToAddPersona = () => {
         history.push('/media-owner/personas/add');

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, createRef, useMemo } from 'react';
-import { makeStyles, fade, withTheme } from '@material-ui/core/styles';
+import React, { useState, useEffect } from 'react';
+import { makeStyles, fade } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { useForm, Controller } from 'react-hook-form'
@@ -22,18 +22,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 //Textarea
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
-//Icon
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-
 //Button
 import Button from '@material-ui/core/Button'
 import { useSelector } from 'react-redux'
 
-import FormGroup from '@material-ui/core/FormGroup';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import AudienceInputs from '../../components/AudienceInputs'
 import { useDispatch } from 'react-redux'
 import StepWrapper from './stepWrapper'
 import MainLayout from '../../layouts/newMainLayout'
@@ -147,16 +141,9 @@ const useStyles = makeStyles((theme) => ({
 const PersonaAdd = () => {
     const { register, handleSubmit, errors, control } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
 
-    const [value, setValue] = useState('female');
-    const [channel, setChannel] = useState('television')
     const [age, setAge] = useState('')
     const [income, setIncome] = useState('')
-    const [personality, setPersonality] = useState('')
-    const [motivations, setMotivations] = useState()
-    const [hobbiesInterests, setHobbiesInterests] = useState()
     const [housingUnits, setHousingUnits] = useState('')
-    const [politicalBeliefs, setPoliticalBeliefs] = useState('')
-    const [avatar, setAvatar] = useState('')
     const [educationLevel, setEducationLevel] = useState('')
     const [parentalEducationLevel, setParentalEducationLevel] = useState('')
 
@@ -172,9 +159,6 @@ const PersonaAdd = () => {
     const [ethnicity, setEthnicity] = useState('')
     const [description, setDescription] = useState('')
 
-    const [checktest, setChecktest] = useState('')
-    const [checkchange, setCheckchange] = useState(true)
-
     const dispatch = useDispatch()
     const history = useHistory();
 
@@ -187,8 +171,6 @@ const PersonaAdd = () => {
     const handleChange = (event) => {
         setState({ ...state, [event.target.name]: event.target.checked });
     };
-
-    const { gilad, jason, antoine } = state;
 
     const createMedia = useSelector((state) => state.createMedia);
     const personaSaved = useSelector((state) => state.personaSaved);

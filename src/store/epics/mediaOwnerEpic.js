@@ -2,13 +2,13 @@ import { combineEpics } from 'redux-observable';
 import { ofType } from 'redux-observable';
 import { map, catchError, switchMap, mergeMap } from 'rxjs/operators';
 import { from, of } from 'rxjs';
-import { createApi, getPersonas } from '../services/api/media-owner';
+import { postPersonas, postInventory, getPersonas } from '../../services/api/media-owner';
 
-const createMedia = action$ => action$.pipe(
+const createPersona = action$ => action$.pipe(
     ofType('CREATE_PERSONA'),
     mergeMap(
         action =>
-            from(createApi(action.persona)).pipe(
+            from(postPersonas(action.persona)).pipe(
                 map(response => {
                     return action.personas;
                 }),
@@ -24,6 +24,36 @@ const createMedia = action$ => action$.pipe(
                     {
                         type: 'PERSONA_SUCCESS',
                         personaSuccess: null
+                    }
+                ]),
+                catchError(error => {
+                    return of({ type: 'ERROR', error: error.response.data.error })
+                })
+            )
+    )
+);
+
+const createInventory = action$ => action$.pipe(
+    ofType('CREATE_INVENTORY'),
+    mergeMap(
+        action =>
+            from(postInventory(action.mediaOwner)).pipe(
+                map(response => {
+                    console.log(action.mediaOwner, 'mediaOwner')
+                    return action.personas;
+                }),
+                switchMap((personas) => [
+                    {
+                        type: 'SEND_MEDIA_CREATESSS',
+                        createMedia: personas
+                    },
+                    {
+                        type: 'INVENTORY_SAVED',
+                        inventorySaved: true
+                    },
+                    {
+                        type: 'INVENTORY_SUCCESS',
+                        inventorySuccess: null
                     }
                 ]),
                 catchError(error => {
@@ -65,5 +95,5 @@ const getPersona = action$ => action$.pipe(
 );
 
 export const mediaOwnerEpic = combineEpics(
-    createMedia, getPersona
+    createPersona, getPersona, createInventory
 );

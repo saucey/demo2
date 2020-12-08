@@ -2,7 +2,7 @@ import { ofType } from 'redux-observable';
 import { combineEpics } from 'redux-observable';
 import { from, of } from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
-import { loginApi, registerApi } from '../services/api/user';
+import { loginApi, registerApi } from '../../services/api/user';
 
 const login = action$ => action$.pipe(
     ofType('LOGIN'),
@@ -30,7 +30,7 @@ const login = action$ => action$.pipe(
                     }
                 }),
                 catchError(error => {
-                    return of({ type: 'ERROR',  error  })
+                    return of({ type: 'ERROR', error })
                 })
             )
     )
