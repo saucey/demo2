@@ -239,30 +239,38 @@ const About = () => {
     const history = useHistory();
 
     const personaSaved = useSelector((state) => state.personaSaved);
-    const setCreatePersona = useSelector((state) => state.setCreatePersona);
 
     const classes = useStyles();
 
     useEffect(() => {
-    }, [channel, personaSaved, setCreatePersona])
+    }, [channel, personaSaved])
 
 
     const selectImg = () => {
 
     }
 
-    const onSubmit = createMedia => {
+    const onSubmit = (profile) => {
 
-        createMedia.profile.channel.name = channel
-
-        createMedia.persona = {}
+        profile.profile.channel.name = channel
 
         dispatch({
-            type: 'SEND_MEDIA_CREATE',
-            createMedia
+            type: 'CREATE_MEDIA_OWNER',
+            mediaOwner: profile
         })
 
         history.push('/media-owner/personas');
+
+        const payload = {
+            "mediaOwner": {
+                "profile": {
+
+                },
+                "personasLinked": ["pers_o85p9iePaYF6Lds92", 2],
+                "inventory": { "name": "television", "values": { "a": "a one", "b": "b two" } }
+
+            }
+        }
 
     }
 

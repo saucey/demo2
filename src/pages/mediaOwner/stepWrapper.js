@@ -237,12 +237,11 @@ const StepWrapper = ({ step }) => {
     const [engagement, setEngagement] = useState('')
 
     const personaSaved = useSelector((state) => state.personaSaved);
-    const setCreatePersona = useSelector((state) => state.setCreatePersona);
 
     const classes = useStyles();
 
     useEffect(() => {
-    }, [channel, personaSaved, setCreatePersona])
+    }, [channel, personaSaved])
 
 
     const selectImg = () => {

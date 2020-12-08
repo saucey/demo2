@@ -207,10 +207,9 @@ const PersonaAdd = () => {
 
     const onSubmit = persona => {
 
-        const createMediaMap = { ...createMedia, persona: persona.persona }
         dispatch({
-            type: 'SEND_MEDIA_API',
-            createMediaMap
+            type: 'CREATE_PERSONA',
+            persona
         })
     }
 
@@ -247,7 +246,7 @@ const PersonaAdd = () => {
                                                 name="persona[age]"
                                                 // rules={{ required: "this is required" }}
                                                 control={control}
-                                                // error={errors.person && errors.person.age?.type === 'required'}
+                                                error={errors.person && errors.person.age?.type === 'required'}
                                                 onChange={(event) => setAge(event.target.value)}
                                                 defaultValue={age}
                                             />

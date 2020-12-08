@@ -22,16 +22,11 @@ export default () => (
       <Route path="/persona-overview" exact component={PersonaOverview} />
       <Route path="/media-login" exact component={MediaLogin} />
       <Route path="/create-media" exact component={CreateMedia} />
-
-      <Route path="media-owner/personas" exact component={CreateMedia} />
-      <Route path="media-owner/personas/add" exact component={CreateMedia} />
-      <Route path="media-owner/personas/edit/:id" exact component={CreateMedia} />
-      
-      
-      
       <Route path="/media-planner" exact component={MediaPlanner} />
       {/* <Route path="/media-owner" exact component={MediaOwner} /> */}
-      {/* <Route path="/" exact component={MediaLogin} /> */}
+
+      <Route path="/media-owner" exact component={MediaOwner} />
+      <Route path="/" exact component={MediaLogin} />
       <Route path="media-owner" exact component={About} />
       <Route path="/media-owner/about" exact component={About} />
       <Route path="/media-owner/personas" exact component={Personas} />

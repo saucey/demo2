@@ -29,6 +29,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import { useLocation } from 'react-router-dom';
 
 const print = [{
     name: 'Inside_front_cover(IFC)',
@@ -341,6 +342,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Inventory = () => {
 
+    const location = useLocation();
+
     const searchInput = useRef(null);
     const inputRef = useRef([]);
     const dispatch = useDispatch()
@@ -349,7 +352,7 @@ const Inventory = () => {
     const classes = useStyles();
 
     const { control, register, handleSubmit, errors } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
-    const createMedia = useSelector((state) => state.createMedia);
+    const mediaOwner = useSelector((state) => state.mediaOwner);
     const [selected, setSelected] = useState('')
     const [channel, setChannel] = useState('')
     const [inventoryList, setInventoryList] = useState([])
@@ -357,11 +360,11 @@ const Inventory = () => {
 
 
     useEffect(() => {
-        console.log(createMedia, 'createMedia')
-        setCreateMediaCopy(createMedia)
-        setChannel(createMedia.profile.channel.name)
-        setInventory(createMedia.profile.channel.name)
-    }, [createMedia])
+        console.log(mediaOwner, 'createMedia')
+        setCreateMediaCopy(mediaOwner)
+        setChannel(mediaOwner.profile.channel.name)
+        setInventory(mediaOwner.profile.channel.name)
+    }, [mediaOwner])
 
 
     const handleChange = (event) => {
@@ -371,11 +374,13 @@ const Inventory = () => {
     const onSubmit = (data) => {
         data.inventory.name = channel;
         const inventory = data.inventory;
-        createMediaCopy.inventory = inventory
+        mediaOwner.inventory = inventory
+        mediaOwner.personasLinked = location.state
+        console.log(mediaOwner, 'media owver in!!!!!')
 
         dispatch({
             type: 'ADD_INVENTORY',
-            createMedia: createMediaCopy
+            mediaOwner
         })
     }
 
@@ -443,7 +448,7 @@ const Inventory = () => {
                     </Paper>
                 </Grid>
             </Grid>
-        </div>
+        </div >
     );
 }
 export default MainLayout(Inventory);

@@ -71,46 +71,28 @@ const Personas = () => {
 
     const { control, register, handleSubmit, errors } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
     const createMedia = useSelector((state) => state.createMedia);
+    const personas = useSelector((state) => state.personas);
+    const personaSuccess = useSelector((state) => state.personaSuccess);
     const [selected, setSelected] = useState('')
-    const [currentCreateMediaTest, setCurrentCreateMediaTest] = useState([])
+    const [personasList, setPersonasList] = useState([])
     const [personaInventories, setPersonaInventories] = useState([])
 
     const currentCreateMedia = [createMedia]
 
-    const data = [
-        {
-            persona: {
-                id: 1,
-                selected: false,
-                about: {
-                    name: 'Mag1'
-                }
-            }
-        },
-        {
-            persona: {
-                id: 2,
-                selected: false,
-                about: {
-                    name: 'Mag2'
-                }
-            }
-        },
-        {
-            persona: {
-                id: 3,
-                selected: false,
-                about: {
-                    name: 'Mag3'
-                }
-            }
-        }
-    ]
-
-
+    console.log(personas, 'personas!!')
     useEffect(() => {
-        setCurrentCreateMediaTest(data)
-    }, [])
+        if (personaSuccess !== true) {
+            getPersonas();
+            setPersonasList(personas)
+        }
+    }, [personas])
+
+    const getPersonas = () => {
+        dispatch({
+            type: 'GET_PERSONAS',
+        })
+    }
+
 
     const handleChange = (event) => {
         console.log(event, 'the event')
@@ -121,22 +103,23 @@ const Personas = () => {
     }
 
     const goToAddInventory = () => {
-        history.push('/media-owner/inventory');
+        history.push('/media-owner/inventory', personaInventories);
     }
 
     const toggleSelectPersona = (id) => {
+
         const getIds = []
-        const newcur = currentCreateMediaTest.map(val => {
-            if (val.persona['id'] === id) {
-                val.persona['selected'] = !val.persona['selected'];
+        const newcur = personasList.map(val => {
+            if (val['_id'] === id) {
+                val['selected'] = !val['selected'];
             }
-            if (val.persona['selected'] === true) {
-                getIds.push(val.persona.id)
+            if (val['selected'] === true) {
+                getIds.push(val._id)
             }
             return val
         })
 
-        setCurrentCreateMediaTest(newcur);
+        setPersonasList(newcur);
         setPersonaInventories(getIds)
 
     }
@@ -155,8 +138,8 @@ const Personas = () => {
                         </Grid>
                     </Grid>
                     <Grid container spacing={3}>
-                        {currentCreateMediaTest.length > 0 && currentCreateMediaTest.map((val, index) => (
-                            Object.keys(val.persona).length > 0 &&
+                        {personasList.length > 0 && personasList.map((val, index) => (
+                            // Object.keys(val.persona).length > 0 &&
                             <Grid key={index} item md={3} sm={3} xs={3}>
                                 <Paper>
                                     <div style={{ textAlign: 'center', padding: '40px 0px', position: 'relative' }}>
@@ -165,16 +148,16 @@ const Personas = () => {
                                             top: '-10px',
                                             right: '-10px',
                                         }}
-                                            onClick={() => toggleSelectPersona(val.persona.id)}
+                                            onClick={() => toggleSelectPersona(val._id)}
                                             aria-label="open drawer">
 
-                                            {val.persona.selected ? <StarRoundedIcon style={{ fontSize: '1.5em', color: '#e96941' }} /> :
+                                            {val.selected ? <StarRoundedIcon style={{ fontSize: '1.5em', color: '#e96941' }} /> :
                                                 <StarBorderRoundedIcon style={{ fontSize: '1.5em', color: 'rgb(233 231 238)' }} />}
                                         </IconButton>
                                         <div>
                                             <PersonPinIcon style={{ fontSize: '12em' }} />
                                         </div>
-                                        <span style={{ color: '#0e82f4', fontSize: '1.2em', display: 'block', fontWeight: 'bold', marginBottom: '20px' }}>{val.persona.about.name}</span>
+                                        <span style={{ color: '#0e82f4', fontSize: '1.2em', display: 'block', fontWeight: 'bold', marginBottom: '20px' }}>{val.about.name}</span>
                                         <Button className={classes.addActionBtn1} variant="outlined">
                                             Show Persona
                                             </Button>
