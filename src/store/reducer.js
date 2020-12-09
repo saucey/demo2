@@ -7,7 +7,9 @@ const initState = {
   personaSaved: false,
   personas: [],
   personaSuccess: null,
-  inventorySaved: null
+  inventorySaved: null,
+  uploadAvatarSuccess: null,
+  avatarUrl: null
 }
 
 const Reducer = (state = initState, action) => {
@@ -16,6 +18,17 @@ const Reducer = (state = initState, action) => {
   console.log(action, 'the action')
 
   switch (action.type) {
+
+    case 'AVATAR_URL':
+      return {
+        ...state,
+        avatarUrl: action.avatarUrl
+      }
+    case 'UPLOAD_AVATAR_SUCCESS':
+      return {
+        ...state,
+        uploadAvatarSuccess: action.uploadAvatarSuccess
+      }
     case 'LOGGED_IN_SESSION':
       return {
         ...state,

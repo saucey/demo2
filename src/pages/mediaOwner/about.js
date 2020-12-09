@@ -43,6 +43,7 @@ import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom';
 import MainLayout from '../../layouts/newMainLayout'
 import StepWrapper from './stepWrapper'
+import UploadImage from '../../components/UploadImage';
 
 const ColorlibConnector = withStyles({
     alternativeLabel: {
@@ -237,20 +238,18 @@ const About = () => {
     const history = useHistory();
 
     const personaSaved = useSelector((state) => state.personaSaved);
-
+    const avatarUrlStore = useSelector((state) => state.avatarUrl);
     const classes = useStyles();
 
     useEffect(() => {
     }, [channel, personaSaved])
 
 
-    const selectImg = () => {
-
-    }
 
     const onSubmit = (profile) => {
 
-        profile.profile.channel.name = channel
+        profile.profile.channel.name = channel;
+        profile.profile.avatarUrl = avatarUrlStore;
 
         dispatch({
             type: 'CREATE_MEDIA_OWNER',
@@ -355,9 +354,7 @@ const About = () => {
                                     {/social/.test(channel) && <TextField variant="outlined" margin="normal" label={'Engagement'} fullWidth className={classes.customfield} value={engagement} name="profile[channel][audience][engagement]" error={errors.engagement?.type === 'required'} inputRef={register()} onChange={(e) => setEngagement(e.target.value)} placeholder={'engagement'} />}
                                 </Grid>
                                 <Grid style={{ textAlign: 'center' }} item md={3} sm={6} xs={12}>
-                                    <h2 className={classes.formTitle}>Cover / Thumb</h2>
-                                    <CloudUploadIcon style={{ color: '#ba54f5', fontSize: '3em' }} />
-                                    <Button className={classes.selectImgBtn} onClick={selectImg}>SELECT IMAGE</Button>
+                                    <UploadImage />
                                 </Grid>
                             </Grid>
                             <Button className={classes.nextButton} type="submit">Next</Button>

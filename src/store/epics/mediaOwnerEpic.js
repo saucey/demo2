@@ -2,7 +2,8 @@ import { combineEpics } from 'redux-observable';
 import { ofType } from 'redux-observable';
 import { map, catchError, switchMap, mergeMap } from 'rxjs/operators';
 import { from, of } from 'rxjs';
-import { postPersonas, postInventory, getPersonas } from '../../services/api/media-owner';
+import { postPersonas, postInventory, getPersonas, uploadAvatar } from '../../services/api/media-owner';
+import { UPLOAD_AVATAR } from '../../store/actions/index';
 
 const createPersona = action$ => action$.pipe(
     ofType('CREATE_PERSONA'),
@@ -94,6 +95,31 @@ const getPersona = action$ => action$.pipe(
     )
 );
 
+const uploadAvatarEpic = action$ => action$.pipe(
+    ofType(UPLOAD_AVATAR),
+    mergeMap(
+        action =>
+            from(uploadAvatar(action.avatar)).pipe(
+                map(response => {
+                    return response.data.avatarUrl;
+                }),
+                switchMap((avatarUrl) => [
+                    {
+                        type: 'UPLOAD_AVATAR_SUCCESS',
+                        uploadAvatarSuccess: true
+                    },
+                    {
+                        type: 'AVATAR_URL',
+                        avatarUrl
+                    }
+                ]),
+                catchError(error => {
+                    return of({ type: 'ERROR', error: error.response.data.error })
+                })
+            )
+    )
+);
+
 export const mediaOwnerEpic = combineEpics(
-    createPersona, getPersona, createInventory
+    createPersona, getPersona, createInventory, uploadAvatarEpic
 );
