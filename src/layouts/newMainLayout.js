@@ -24,7 +24,7 @@ import { useSelector } from 'react-redux'
 import Button from '@material-ui/core/Button'
 import { useHistory } from 'react-router-dom';
 import icon from '../assets/CI-Icon.svg'
-import culturalIntell from '../assets/Cultural-Intelligence.svg'
+import culturalIntellWhite from '../assets/CI-Logo-white.png'
 
 const drawerWidth = 240;
 
@@ -75,7 +75,7 @@ const useStyles = icon => makeStyles((theme) => ({
         paddingRight: '20px'
     },
     topicon: {
-        width: '90%',
+        width: '85%',
         margin: '20px auto',
     },
     bgicon: {
@@ -137,7 +137,7 @@ const MainLayout = WrappedComponent => props => {
                             keepMounted: true, // Better open performance on mobile.
                         }}
                     >
-                        <img className={classes.topicon} src={culturalIntell} />
+                        <img className={classes.topicon} src={culturalIntellWhite} />
                     </Drawer>
                 </Hidden>
                 <Hidden xsDown implementation="css" style={{ background: 'red' }}>
@@ -148,7 +148,7 @@ const MainLayout = WrappedComponent => props => {
                         variant="permanent"
                         open
                     >
-                        <img className={classes.topicon} src={culturalIntell} />
+                        <img className={classes.topicon} src={culturalIntellWhite} />
                     </Drawer>
                 </Hidden>
             </nav>

@@ -5,6 +5,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom';
+import culturalIntell from '../assets/Cultural-Intelligence.svg'
+
 
 const useStyles = props => makeStyles((theme) => ({
 	selectControl: {
@@ -53,7 +55,7 @@ const useStyles = props => makeStyles((theme) => ({
 
 	boxShadow: {
 		position: 'relative',
-		padding: '80px 100px 0',
+		padding: '40px 100px 0',
 		boxShadow: '0px 0px 20px rgba(0,0,0,0.30), 0 20px 20px rgba(0,0,0,0.22)',
 		borderRadius: '30px',
 		backgroundColor: 'white',
@@ -86,7 +88,12 @@ const useStyles = props => makeStyles((theme) => ({
 		marginTop: '-4px',
 		display: 'block',
 		fontSize: '.8em'
-
+	},
+	logo: {
+		width: '200px',
+		margin: '0 auto',
+		display: 'block',
+		marginBottom: '30px'
 	}
 }))
 
@@ -138,6 +145,8 @@ export default function MediaLoginForm(props) {
 	return (
 		<div className={classes.boxShadow}>
 			<div className={classes.paper}>
+				<img className={classes.logo} src={culturalIntell} />
+
 				{/* <Registeration /> */}
 				{props.type === 'Brand' || isLogin ? <form
 					className={classes.form}
