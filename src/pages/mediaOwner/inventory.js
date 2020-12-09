@@ -346,7 +346,6 @@ const Inventory = () => {
 
 
     useEffect(() => {
-        setCreateMediaCopy(mediaOwner)
         setChannel(mediaOwner.profile.channel.name)
         setInventory(mediaOwner.profile.channel.name)
         if (inventorySaved) {

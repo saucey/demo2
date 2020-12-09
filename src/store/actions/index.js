@@ -1,0 +1,1 @@
+export const UPLOAD_AVATAR = 'UPLOAD_AVATAR';
