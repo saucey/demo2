@@ -85,7 +85,7 @@ const Personas = () => {
     }
 
     const goToAddPersona = () => {
-        history.push('/media-owner/personas/add');
+        history.push('/media-owner/personas/create');
     }
 
     const goToAddInventory = () => {

@@ -23,10 +23,12 @@ import Grid from '@material-ui/core/Grid';
 import { useSelector } from 'react-redux'
 import Button from '@material-ui/core/Button'
 import { useHistory } from 'react-router-dom';
+import icon from '../assets/CI-Icon.svg'
+import culturalIntell from '../assets/Cultural-Intelligence.svg'
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = icon => makeStyles((theme) => ({
     root: {
         display: 'flex',
     },
@@ -56,7 +58,9 @@ const useStyles = makeStyles((theme) => ({
     // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
-        backgroundImage: 'linear-gradient(to right, #9211a2, #4911a2)',
+        backgroundImage: `url(${icon}), linear-gradient(to right, #9211a2, #4911a2)`,
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
         borderLeft: '10px solid #f64d0c',
         width: drawerWidth,
     },
@@ -69,7 +73,16 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 'auto',
         paddingLeft: '20px',
         paddingRight: '20px'
+    },
+    topicon: {
+        width: '90%',
+        margin: '20px auto',
+    },
+    bgicon: {
+        position: 'absolute',
+        top: 0
     }
+
 }));
 
 const MainLayout = WrappedComponent => props => {
@@ -79,7 +92,7 @@ const MainLayout = WrappedComponent => props => {
     const history = useHistory();
     const dispatch = useDispatch();
     const loggedInSession = useSelector((state) => state.loggedInSession);
-    const classes = useStyles();
+    const classes = useStyles(icon)();
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -124,6 +137,7 @@ const MainLayout = WrappedComponent => props => {
                             keepMounted: true, // Better open performance on mobile.
                         }}
                     >
+                        <img className={classes.topicon} src={culturalIntell} />
                     </Drawer>
                 </Hidden>
                 <Hidden xsDown implementation="css" style={{ background: 'red' }}>
@@ -134,6 +148,7 @@ const MainLayout = WrappedComponent => props => {
                         variant="permanent"
                         open
                     >
+                        <img className={classes.topicon} src={culturalIntell} />
                     </Drawer>
                 </Hidden>
             </nav>

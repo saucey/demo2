@@ -342,25 +342,15 @@ const useStyles = makeStyles((theme) => ({
 const Confirmation = () => {
 
     const location = useLocation();
-
-    const searchInput = useRef(null);
-    const inputRef = useRef([]);
     const dispatch = useDispatch()
     const history = useHistory()
-
     const classes = useStyles();
-
-    const { control, register, handleSubmit, errors } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
     const state = useSelector((state) => state);
-
     console.log(state, 'the state')
-
-
 
     useEffect(() => {
 
     }, [state])
-
 
     const handleChange = (event) => {
         console.log(event, 'the event')

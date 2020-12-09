@@ -26,7 +26,7 @@ export default () => (
       <Route path="media-owner" exact component={About} />
       <Route path="/media-owner/about" exact component={About} />
       <Route path="/media-owner/personas" exact component={Personas} />
-      <Route path="/media-owner/personas/add" exact component={PersonasAdd} />
+      <Route path="/media-owner/personas/create" exact component={PersonasAdd} />
       <Route path="/media-owner/inventory" exact component={Inventory} />
       <Route path="/media-owner/confirmation" exact component={Confirmation} />
     </Switch>

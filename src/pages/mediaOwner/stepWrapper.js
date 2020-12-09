@@ -81,7 +81,7 @@ function ColorlibStepIcon(props) {
 }
 
 const getSteps = () => {
-    return ['ABOUT', 'VIEW/ADD PERSONAS', 'ADD INVENTORY', 'CONFIRM'];
+    return ['ABOUT', 'VIEW/CREATE PERSONAS', 'CREATE INVENTORY', 'CONFIRM'];
 }
 
 const useStyles = makeStyles((theme) => ({

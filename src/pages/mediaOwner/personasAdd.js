@@ -32,7 +32,7 @@ import { useDispatch } from 'react-redux'
 import StepWrapper from './stepWrapper'
 import MainLayout from '../../layouts/newMainLayout'
 import { useHistory } from 'react-router-dom';
-
+import Modal from '../../components/modal'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -158,24 +158,16 @@ const PersonaAdd = () => {
     const [nationality, setNationality] = useState('')
     const [ethnicity, setEthnicity] = useState('')
     const [description, setDescription] = useState('')
+    const [modalOpen, setModalOpen] = useState(false)
 
     const dispatch = useDispatch()
     const history = useHistory();
 
-    const [state, setState] = React.useState({
-        gilad: false,
-        jason: false,
-        antoine: false,
-    });
-
-    const handleChange = (event) => {
-        setState({ ...state, [event.target.name]: event.target.checked });
-    };
 
     const createMedia = useSelector((state) => state.createMedia);
     const personaSaved = useSelector((state) => state.personaSaved);
-
     const classes = useStyles();
+
 
     useEffect(() => {
         if (personaSaved) {
@@ -183,7 +175,10 @@ const PersonaAdd = () => {
                 type: 'PERSONA_SAVED',
                 personaSaved: false
             })
-            history.push('/media-owner/personas');
+            //show modal
+            setModalOpen(true)
+
+            // history.push('/media-owner/personas');
         }
     }, [createMedia, personaSaved])
 
@@ -258,7 +253,7 @@ const PersonaAdd = () => {
                                                 // rules={{ required: "this is required" }}
                                                 control={control}
                                                 // error={errors.income?.type === 'required'}
-                                                onChange={(event) => setIcome(event.target.value)}
+                                                onChange={(event) => setIncome(event.target.value)}
                                                 defaultValue={income}
                                             />
                                         </FormControl>
@@ -675,6 +670,7 @@ const PersonaAdd = () => {
                     </form>
                 </Grid>
             </Grid>
+            <Modal isModalOpen={modalOpen} redirect="/media-owner/personas" message="Your new persona has been saved"></Modal>
         </div>
     );
 }
