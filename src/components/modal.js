@@ -57,14 +57,12 @@ export default function ModalAction({ isModalOpen, redirect, message }) {
     };
 
     const handleClose = () => {
+        setOpen(false);
         history.push(redirect)
     };
 
     return (
         <div>
-            <button type="button" onClick={handleOpen}>
-                react-transition-group
-      </button>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"

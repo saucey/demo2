@@ -1,34 +1,22 @@
 
-import React, { useState, useEffect, useRef, createRef, useMemo } from 'react';
-import { makeStyles, fade, withTheme } from '@material-ui/core/styles';
+import React, { useState, useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
 //Button
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper';
-//Icon
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import ControlPointTwoToneIcon from '@material-ui/icons/ControlPointTwoTone';
-
-//TextField
-import TextField from '@material-ui/core/TextField'
-import { useForm, Controller } from 'react-hook-form'
-import PersonPinIcon from '@material-ui/icons/PersonPin';
 import { useSelector } from 'react-redux'
 
 import { useDispatch } from 'react-redux'
-import StarBorderRoundedIcon from '@material-ui/icons/StarBorderRounded';
-import StarRoundedIcon from '@material-ui/icons/StarRounded';
-import IconButton from '@material-ui/core/IconButton'
 import MainLayout from '../../layouts/newMainLayout'
 import StepWrapper from './stepWrapper'
 import { useHistory } from 'react-router-dom';
 
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import { useLocation } from 'react-router-dom';
+import covidPic from '../../assets/covid.jpg';
+import green from '@material-ui/core/colors/green';
+import Modal from '../../components/modal'
 
 const print = [{
     name: 'Inside_front_cover(IFC)',
@@ -317,10 +305,14 @@ const useStyles = makeStyles((theme) => ({
     },
     nextButton: {
         marginLeft: 'auto',
-        backgroundColor: "#1d8bf7",
+        backgroundColor: green[500],
         color: 'white',
         display: 'block',
-        padding: '5px 40px'
+        padding: '5px 40px',
+        '&:hover': {
+            border: 'none',
+            background: green[100],
+        }
     },
     checkNRadio: {
         padding: 0,
@@ -335,7 +327,18 @@ const useStyles = makeStyles((theme) => ({
                 paddingBottom: '1px',
             }
         }
+    },
+    title: {
+        color: '#e96941',
+        fontSize: '1.4em'
+    },
+
+    text: {
+        color: '#136cc3',
+        marginTop: '0'
     }
+
+
 
 }));
 
@@ -346,15 +349,22 @@ const Confirmation = () => {
     const history = useHistory()
     const classes = useStyles();
     const state = useSelector((state) => state);
-    console.log(state, 'the state')
+    const mediaOwner = useSelector((state) => state.mediaOwner);
+    const [audience, setAudience] = useState(Object.keys(mediaOwner.profile?.channel?.audience))
+    const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
+        setAudience(Object.keys(mediaOwner.profile.channel.audience));
 
-    }, [state])
+    }, [mediaOwner])
 
     const handleChange = (event) => {
         console.log(event, 'the event')
     };
+
+    const saveList = () => {
+        setModalOpen(true)
+    }
 
     const onSubmit = () => {
         dispatch({
@@ -369,10 +379,41 @@ const Confirmation = () => {
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <Paper style={{ padding: '16px' }}>
-                        <Button className={classes.nextButton} type="submit">Next</Button>
+                        <Grid container spacing={3}>
+                            <Grid item md={7} sm={7} xs={7}>
+                                <Grid container>
+                                    <Grid item md={4} sm={4} xs={4}>
+                                        <img src={covidPic} style={{ maxWidth: '150px' }} />
+                                    </Grid>
+                                    <Grid item md={8} sm={8} xs={8}>
+                                        <span className={classes.title}>Name</span>
+                                        <p className={classes.text}>{mediaOwner.profile?.title?.name}</p>
+                                        <span className={classes.title}>Description</span>
+                                        <p className={classes.text}>{mediaOwner.profile?.title?.description}</p>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Grid item md={5} sm={5} xs={5}>
+                                <span className={classes.title}>Channel</span>
+                                <p className={classes.text}>{mediaOwner.profile?.channel?.name}</p>
+                                <hr />
+                                <Grid container>
+                                    {audience.map(name => {
+                                        return (
+                                            <Grid item md={6} sm={6} xs={6}>
+                                                <span className={classes.title}>{name}</span>
+                                                <p className={classes.text}>{mediaOwner.profile?.channel?.audience[name]}</p>
+                                            </Grid>
+                                        )
+                                    })}
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Button onClick={() => saveList()} className={classes.nextButton} type="submit">SAVE</Button>
                     </Paper>
                 </Grid>
             </Grid>
+            <Modal isModalOpen={modalOpen} redirect="/media-owner/confirmation" message="Your new title has saved"></Modal>
         </div >
     );
 }
