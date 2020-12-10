@@ -333,6 +333,17 @@ const useStyles = makeStyles((theme) => ({
 const Inventory = () => {
 
     const location = useLocation();
+
+    const ids = []
+    location.state.map(val => {
+        ids.push(val._id)
+    })
+
+    const personas = []
+    location.state.map(val => {
+        personas.push({ name: val.about?.name, avatarColor: val.avatarColor })
+    })
+
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -349,7 +360,7 @@ const Inventory = () => {
         setChannel(mediaOwner.profile.channel.name)
         setInventory(mediaOwner.profile.channel.name)
         if (inventorySaved) {
-            history.push('/media-owner/confirmation')
+            history.push('/media-owner/confirmation', personas)
         }
     }, [mediaOwner, inventorySaved])
 
@@ -357,7 +368,7 @@ const Inventory = () => {
         data.inventory.name = channel;
         const inventory = data.inventory;
         mediaOwner.inventory = inventory
-        mediaOwner.personasLinked = location.state
+        mediaOwner.personasLinked = ids
         const wrapper = {
             mediaOwner
         }

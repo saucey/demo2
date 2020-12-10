@@ -70,12 +70,12 @@ const getPersona = action$ => action$.pipe(
         action =>
             from(getPersonas()).pipe(
                 map(response => {
-                    const first10 = response.data.slice(0, 10)
+                    const sortedActivities = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                    const first10 = sortedActivities.slice(0, 10)
                     first10.map(val => {
                         val.selected = false
                         return
                     })
-                    console.log(first10, 'first10');
                     return first10;
                 }),
                 switchMap((response) => [

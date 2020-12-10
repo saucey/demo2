@@ -14,8 +14,6 @@ const initState = {
 
 const Reducer = (state = initState, action) => {
 
-  console.log(state, 'the state')
-  console.log(action, 'the action')
 
   switch (action.type) {
 

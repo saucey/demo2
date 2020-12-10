@@ -17,6 +17,7 @@ import { useLocation } from 'react-router-dom';
 import covidPic from '../../assets/covid.jpg';
 import green from '@material-ui/core/colors/green';
 import Modal from '../../components/modal'
+import PersonPinIcon from '@material-ui/icons/PersonPin';
 
 const print = [{
     name: 'Inside_front_cover(IFC)',
@@ -336,8 +337,20 @@ const useStyles = makeStyles((theme) => ({
     text: {
         color: '#136cc3',
         marginTop: '0'
-    }
+    },
 
+    personListWrapper: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+
+    personList: {
+        display: 'inline-block',
+        width: '150px',
+        textAlign: 'center',
+        background: '#fafafa',
+        margin: '10px'
+    }
 
 
 }));
@@ -352,6 +365,8 @@ const Confirmation = () => {
     const mediaOwner = useSelector((state) => state.mediaOwner);
     const [audience, setAudience] = useState(Object.keys(mediaOwner.profile?.channel?.audience))
     const [modalOpen, setModalOpen] = useState(false);
+
+    console.log(location.state, 'in confirmation!!!')
 
     useEffect(() => {
         setAudience(Object.keys(mediaOwner.profile.channel.audience));
@@ -383,7 +398,7 @@ const Confirmation = () => {
                             <Grid item md={7} sm={7} xs={7}>
                                 <Grid container>
                                     <Grid item md={4} sm={4} xs={4}>
-                                        <img src={covidPic} style={{ maxWidth: '150px' }} />
+                                        <img src={mediaOwner.profile?.avatarUrl} style={{ maxWidth: '150px' }} />
                                     </Grid>
                                     <Grid item md={8} sm={8} xs={8}>
                                         <span className={classes.title}>Name</span>
@@ -409,11 +424,27 @@ const Confirmation = () => {
                                 </Grid>
                             </Grid>
                         </Grid>
+                        <Grid container spacing={3}>
+                            <Grid item md={12} sm={12} xs={12}>
+
+                                <p className={classes.title}>Personas</p>
+                                <div className={classes.personListWrapper}>
+                                    {location.state.map(val => {
+                                        return (
+                                            <div className={classes.personList}>
+                                                <PersonPinIcon style={{ color: val.avatarColor, fontSize: '6em' }} />
+                                                <p style={{ fontSize: '1.4em', fontWeight: '200' }}>{val.name}</p>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            </Grid>
+                        </Grid>
                         <Button onClick={() => saveList()} className={classes.nextButton} type="submit">SAVE</Button>
                     </Paper>
                 </Grid>
             </Grid>
-            <Modal isModalOpen={modalOpen} redirect="/media-owner/confirmation" message="Your new title has saved"></Modal>
+            <Modal isModalOpen={modalOpen} redirect="/media-owner/" message="Your new title has saved"></Modal>
         </div >
     );
 }

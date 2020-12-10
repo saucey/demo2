@@ -100,7 +100,7 @@ const Personas = () => {
                 val['selected'] = !val['selected'];
             }
             if (val['selected'] === true) {
-                getIds.push(val._id)
+                getIds.push(val)
             }
             return val
         })
@@ -141,7 +141,7 @@ const Personas = () => {
                                                 <StarBorderRoundedIcon style={{ fontSize: '1.5em', color: 'rgb(233 231 238)' }} />}
                                         </IconButton>
                                         <div>
-                                            <PersonPinIcon style={{ fontSize: '12em' }} />
+                                            <PersonPinIcon style={{ color: val.avatarColor, fontSize: '12em' }} />
                                         </div>
                                         <span style={{ color: '#0e82f4', fontSize: '1.2em', display: 'block', fontWeight: 'bold', marginBottom: '20px' }}>{val.about.name}</span>
                                         <Button className={classes.addActionBtn1} variant="outlined">
