@@ -357,8 +357,12 @@ const Inventory = () => {
 
 
     useEffect(() => {
-        setChannel(mediaOwner.profile.channel.name)
-        setInventory(mediaOwner.profile.channel.name)
+        if (mediaOwner.profile === undefined) {
+            history.push('/media-owner/about')
+        } else {
+            setChannel(mediaOwner.profile.channel.name)
+            setInventory(mediaOwner.profile.channel.name)
+        }
         if (inventorySaved) {
             history.push('/media-owner/confirmation', personas)
         }

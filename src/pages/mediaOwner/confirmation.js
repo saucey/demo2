@@ -444,7 +444,7 @@ const Confirmation = () => {
                     </Paper>
                 </Grid>
             </Grid>
-            <Modal isModalOpen={modalOpen} redirect="/media-owner/" message="Your new title has saved"></Modal>
+            <Modal isModalOpen={modalOpen} redirect="/media-owner/overview" message="Your new title has saved"></Modal>
         </div >
     );
 }

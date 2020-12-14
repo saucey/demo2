@@ -69,8 +69,7 @@ const Personas = () => {
     const [personasList, setPersonasList] = useState([])
     const [personaInventories, setPersonaInventories] = useState([])
 
-
-    console.log(personas, 'personas!!')
+    console.log(personaSuccess, 'person success')
     useEffect(() => {
         if (personaSuccess !== true) {
             getPersonas();
@@ -84,11 +83,20 @@ const Personas = () => {
         })
     }
 
+    const setPersonasNull = () => {
+        dispatch({
+            type: 'PERSONA_SUCCESS',
+            personaSuccess: null
+        })
+    }
+
     const goToAddPersona = () => {
+        setPersonasNull()
         history.push('/media-owner/personas/create');
     }
 
     const goToAddInventory = () => {
+        setPersonasNull()
         history.push('/media-owner/inventory', personaInventories);
     }
 

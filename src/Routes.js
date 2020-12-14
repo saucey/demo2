@@ -8,6 +8,7 @@ import Personas from './pages/mediaOwner/personas'
 import PersonasAdd from './pages/mediaOwner/personasAdd'
 import Inventory from './pages/mediaOwner/inventory'
 import Confirmation from './pages/mediaOwner/confirmation'
+import OverviewIndex from './pages/mediaOwner/overview/index'
 
 export default () => (
   <BrowserRouter>
@@ -29,6 +30,7 @@ export default () => (
       <Route path="/media-owner/personas/create" exact component={PersonasAdd} />
       <Route path="/media-owner/inventory" exact component={Inventory} />
       <Route path="/media-owner/confirmation" exact component={Confirmation} />
+      <Route path="/media-owner/overview" exact component={OverviewIndex} />
     </Switch>
   </BrowserRouter>
 )

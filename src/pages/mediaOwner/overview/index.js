@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import { useForm } from 'react-hook-form'
-import MediaLoginForm from '../../components/mediaLoginForm'
-import MainLayout from '../../layouts/newMainLayout'
-
+import MediaLoginForm from '../../../components/mediaLoginForm'
+import MainLayout from '../../../layouts/newMainLayout'
+import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
+import Overview from './overview';
+import Insight from './insight';
+import Inventory from './inventory';
 
 const useStyles = makeStyles((theme) => ({
 	tab1: {
 		marginRight: '10px',
-		color: '#e96941',
+		color: red[500],
 		'&.selected': {
 			zIndex: 10
 		}
@@ -24,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 	tab3: {
-		color: '#e502ba',
+		color: green[500],
 		'&.selected': {
 			zIndex: 10
 		}
@@ -32,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 	tabWrapper: {
 		display: 'flex',
-		justifyContent: 'space-between',
+		justifyContent: 'flex-start',
 		marginTop: '50px',
 		'& span': {
 			'border-top-right-radius': '25px',
@@ -47,10 +51,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-const MediaLogin = () => {
+const OverviewIndex = () => {
 	const { register, handleSubmit, errors } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' })
 	const classes = useStyles()
-	const [mediaState, setMediaState] = useState('planner')
+	const [mediaState, setMediaState] = useState('overview')
 
 
 	useEffect(() => {
@@ -63,17 +67,17 @@ const MediaLogin = () => {
 	const ToggleMediaSwitch = () => {
 
 		switch (mediaState) {
-			case 'owner':
+			case 'overview':
 				return (
-					<MediaLoginForm type="Owner" colorTheme="#6a5fcd" role="media_owner" />
+					<Overview />
 				)
-			case 'planner':
+			case 'insight':
 				return (
-					<MediaLoginForm type="Planner" colorTheme="#e96941" role="media_agency" />
+					<Insight />
 				)
-			case 'brand':
+			case 'inventory':
 				return (
-					<MediaLoginForm type="Brand" colorTheme="#e502ba" role="admin" />
+					<Inventory />
 				)
 			default:
 			// code block
@@ -82,11 +86,11 @@ const MediaLogin = () => {
 
 	return (
 		<div>
-			<Container maxWidth="sm">
+			<Container maxWidth="g">
 				<div className={classes.tabWrapper}>
-					<span onClick={() => toggleMedia('planner')} className={[classes.tab1, mediaState === 'planner' ? 'selected' : ''].join(' ')}>Media Planner</span>
-					<span onClick={() => toggleMedia('owner')} className={[classes.tab2, mediaState === 'owner' ? 'selected' : ''].join(' ')}>Media Owner</span>
-					<span onClick={() => toggleMedia('brand')} className={[classes.tab3, mediaState === 'brand' ? 'selected' : ''].join(' ')}>Brand Advance</span>
+					<span onClick={() => toggleMedia('overview')} className={[classes.tab1, mediaState === 'overview' ? 'selected' : ''].join(' ')}>Overview</span>
+					<span onClick={() => toggleMedia('insight')} className={[classes.tab2, mediaState === 'insight' ? 'selected' : ''].join(' ')}>Insight</span>
+					<span onClick={() => toggleMedia('inventory')} className={[classes.tab3, mediaState === 'inventory' ? 'selected' : ''].join(' ')}>Inventory</span>
 				</div>
 				<ToggleMediaSwitch />
 			</Container>
@@ -94,4 +98,4 @@ const MediaLogin = () => {
 	)
 }
 
-export default MainLayout(MediaLogin)
+export default MainLayout(OverviewIndex)
